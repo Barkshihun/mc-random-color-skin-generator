@@ -15,49 +15,12 @@ function Home() {
   const getRgbaObj = (state: RootState) => state.rgbaObj.value;
   const rgbaObjSelector = createSelector(getRgbaObj, (rgbaObj) => rgbaObj);
   const rgbaObj = useSelector(rgbaObjSelector);
-  // const isInvalidValue = (id: string, value: number) => {
-  //   switch (id) {
-  //     case "redMin":
-  //       if (value > redMaxValue) {
-  //         return true;
-  //       }
-  //       break;
-  //     case "redMax":
-  //       if (value < redMinValue) {
-  //         return true;
-  //       }
-  //       break;
-  //     case "greenMin":
-  //       if (value > greenMaxValue) {
-  //         return true;
-  //       }
-  //       break;
-  //     case "greenMax":
-  //       if (value < greenMinValue) {
-  //         return true;
-  //       }
-  //       break;
-  //     case "blueMin":
-  //       if (value > blueMaxValue) {
-  //         return true;
-  //       }
-  //       break;
-  //     case "blueMax":
-  //       if (value < blueMinValue) {
-  //         return true;
-  //       }
-  //       break;
-  //     default:
-  //       return false;
-  //   }
-  // };
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const id = event.target.id as rgbaId;
     if (!event.target.value) {
       dispatch(rgbaObjChange({ id, input: "" }));
       return;
     }
-    console.log(rgbaObj);
     const input = parseInt(event.target.value);
     if (input < MIN_VALUE) {
       dispatch(rgbaObjChange({ id, input: MIN_VALUE }));
@@ -75,6 +38,61 @@ function Home() {
     { name: "B", minId: "bMin", maxId: "bMax" },
     { name: "A", minId: "aMin", maxId: "aMax" },
   ];
+  const onGenerate = () => {
+    const errorMessage = (color: "Red" | "Green" | "Blue" | "Alpha") => `${color}의 최솟값이 ${color}의 최댓값보다 큽니다`;
+    const emptyRgba = rgbaIdList.find((key) => rgbaObj[key] === "");
+    if (emptyRgba) {
+      let color;
+      switch (emptyRgba[0]) {
+        case "r":
+          color = "Red의 ";
+          break;
+        case "g":
+          color = "Green의 ";
+          break;
+        case "b":
+          color = "Blue의 ";
+          break;
+        case "a":
+          color = "Alpha의 ";
+          break;
+      }
+      switch (emptyRgba.slice(-3)) {
+        case "Min":
+          color = color + "최솟값";
+          break;
+        case "Max":
+          color = color + "최댓값";
+          break;
+      }
+      Swal.fire({
+        icon: "error",
+        text: `${color}이 없습니다`,
+      });
+    } else if (rgbaObj.rMin > rgbaObj.rMax) {
+      Swal.fire({
+        icon: "error",
+        text: errorMessage("Red"),
+      });
+    } else if (rgbaObj.gMin > rgbaObj.gMax) {
+      Swal.fire({
+        icon: "error",
+        text: errorMessage("Green"),
+      });
+    } else if (rgbaObj.bMin > rgbaObj.bMax) {
+      Swal.fire({
+        icon: "error",
+        text: errorMessage("Blue"),
+      });
+    } else if (rgbaObj.aMin > rgbaObj.aMax) {
+      Swal.fire({
+        icon: "error",
+        text: errorMessage("Alpha"),
+      });
+    } else {
+      dispatch(generate(rgbaObj));
+    }
+  };
   return (
     <section>
       <h1>랜덤 색깔 스킨 생성기</h1>
@@ -87,42 +105,7 @@ function Home() {
           </div>
         );
       })}
-      <button
-        onClick={() => {
-          console.log(rgbaObj);
-          const errorMessage = (color: "R" | "G" | "B" | "A") => `${color}의 최솟값이 ${color}의 최댓값보다 큽니다`;
-          const emptyRgba = rgbaIdList.find((key) => rgbaObj[key] === "");
-          if (emptyRgba) {
-            Swal.fire({
-              icon: "error",
-              text: `${emptyRgba}의 값이 없습니다`,
-            });
-          } else if (rgbaObj.rMin > rgbaObj.rMax) {
-            Swal.fire({
-              icon: "error",
-              text: errorMessage("R"),
-            });
-          } else if (rgbaObj.gMin > rgbaObj.gMax) {
-            Swal.fire({
-              icon: "error",
-              text: errorMessage("G"),
-            });
-          } else if (rgbaObj.bMin > rgbaObj.bMax) {
-            Swal.fire({
-              icon: "error",
-              text: errorMessage("B"),
-            });
-          } else if (rgbaObj.aMin > rgbaObj.aMax) {
-            Swal.fire({
-              icon: "error",
-              text: errorMessage("A"),
-            });
-          } else {
-            dispatch(generate(rgbaObj));
-          }
-        }}
-        className="bg-teal-300"
-      >
+      <button onClick={onGenerate} className="bg-teal-300">
         생성하기
       </button>
     </section>
