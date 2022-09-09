@@ -1,16 +1,23 @@
-interface rgbaList {
-  name: String;
-  minId: "rMin" | "gMin" | "bMin" | "aMin";
-  maxId: "rMax" | "gMax" | "bMax" | "aMax";
+type Rgba = "red" | "green" | "blue" | "alpha";
+type RgbaList = Array<{
+  displayName: string;
+  color: Rgba;
+}>;
+interface RgbaObj {
+  red: {
+    min: "" | number;
+    max: "" | number;
+  };
+  green: {
+    min: "" | number;
+    max: "" | number;
+  };
+  blue: {
+    min: "" | number;
+    max: "" | number;
+  };
+  alpha: {
+    min: "" | number;
+    max: "" | number;
+  };
 }
-interface rgbaObjState {
-  rMin: "" | number;
-  rMax: "" | number;
-  gMin: "" | number;
-  gMax: "" | number;
-  bMin: "" | number;
-  bMax: "" | number;
-  aMin: "" | number;
-  aMax: "" | number;
-}
-type rgbaId = "rMin" | "gMin" | "bMin" | "aMin" | "rMax" | "gMax" | "bMax" | "aMax";
