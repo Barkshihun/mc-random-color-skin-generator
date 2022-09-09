@@ -3,22 +3,23 @@ const initialState = {
   value: {
     red: {
       min: 0,
-      max: 0,
+      max: 255,
     },
     green: {
       min: 0,
-      max: 0,
+      max: 255,
     },
     blue: {
       min: 0,
-      max: 0,
+      max: 255,
     },
     alpha: {
       min: 0,
-      max: 0,
+      max: 255,
     },
-  } as RgbaObj,
+  } as RgbaObj<number | "">,
 };
+
 const rgbaObjSlice = createSlice({
   name: "rgbaObj",
   initialState,

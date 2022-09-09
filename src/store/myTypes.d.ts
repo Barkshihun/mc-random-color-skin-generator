@@ -3,21 +3,21 @@ type RgbaList = Array<{
   displayName: string;
   color: Rgba;
 }>;
-interface RgbaObj {
+interface RgbaObj<T extends number | ""> {
   red: {
-    min: "" | number;
-    max: "" | number;
+    min: T;
+    max: T;
   };
   green: {
-    min: "" | number;
-    max: "" | number;
+    min: T;
+    max: T;
   };
   blue: {
-    min: "" | number;
-    max: "" | number;
+    min: T;
+    max: T;
   };
   alpha: {
-    min: "" | number;
-    max: "" | number;
+    min: T;
+    max: T;
   };
 }
