@@ -57,7 +57,7 @@ function Home() {
   };
   const onGenerate = () => {
     const errMsgArray = checkRgbaObj();
-    if (errMsgArray) {
+    if (errMsgArray.length !== 0) {
       Swal.fire({
         icon: "error",
         text: errMsgArray.join("\n"),
