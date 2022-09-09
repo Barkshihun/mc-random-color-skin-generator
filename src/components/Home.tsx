@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { generate } from "../store/isGeneratedSlice";
 
 function Home() {
+  const dispatch = useDispatch();
   interface rgbaList {
     name: String;
     minId: "rMin" | "gMin" | "bMin" | "aMin";
@@ -108,6 +111,14 @@ function Home() {
           </div>
         );
       })}
+      <button
+        onClick={() => {
+          dispatch(generate());
+        }}
+        className="bg-teal-300"
+      >
+        생성하기
+      </button>
     </section>
   );
 }

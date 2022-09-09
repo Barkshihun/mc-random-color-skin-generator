@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { undo } from "../store/isGeneratedSlice";
 
 function Output() {
+  const dispatch = useDispatch();
   const [ctx, setCtx] = useState<CanvasRenderingContext2D>();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const MIN_RGB_VALUE = 0;
@@ -22,6 +25,18 @@ function Output() {
       }
     }
   }, []);
-  return <canvas ref={canvasRef} width={64} height={64}></canvas>;
+  return (
+    <>
+      <button
+        onClick={() => {
+          dispatch(undo());
+        }}
+        className="bg-red-300"
+      >
+        돌아가기
+      </button>
+      <canvas ref={canvasRef} width={64} height={64}></canvas>
+    </>
+  );
 }
 export default Output;

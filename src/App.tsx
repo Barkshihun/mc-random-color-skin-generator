@@ -1,28 +1,15 @@
 import { useState } from "react";
 import Output from "./components/Output";
 import Home from "./components/Home";
+import { createSelector } from "@reduxjs/toolkit";
+import { RootState } from "./store";
+import { useSelector } from "react-redux";
 import "./App.css";
 
 function App() {
-  const [isGenerated, setIsGenerated] = useState(false);
-  const onTransBtnClick = () => {
-    setIsGenerated((prevIsGenerated) => !prevIsGenerated);
-  };
-  return (
-    <main className="flex justify-center items-center h-screen flex-col">
-      {isGenerated ? (
-        <button onClick={onTransBtnClick} className="bg-red-300">
-          돌아가기
-        </button>
-      ) : null}
-      {!isGenerated ? <Home /> : <Output />}
-      {!isGenerated ? (
-        <button onClick={onTransBtnClick} className="bg-teal-300">
-          생성하기
-        </button>
-      ) : null}
-    </main>
-  );
+  const getIsGenerated = (state: RootState) => state.isGenerated.value;
+  const isGeneratedSelector = createSelector(getIsGenerated, (isGenerated) => isGenerated);
+  return <main className="flex justify-center items-center h-screen flex-col">{!useSelector(isGeneratedSelector) ? <Home /> : <Output />}</main>;
 }
 
 export default App;
