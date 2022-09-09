@@ -14,7 +14,7 @@ function Output() {
   const rgbaObj = useSelector(rgbaObjSelector) as RgbaObj<number>;
   const HEAD = {
     START_COL: 0,
-    END_COL: 16,
+    END_COL: 64,
     START_ROW: 0,
     END_ROW: 16,
   };
@@ -22,10 +22,14 @@ function Output() {
     const context = canvasRef?.current?.getContext("2d");
     if (context) {
       const imageData = context.createImageData(64, 64);
-      const fillRange = (col: number) => {
-        imageData.data[col] = Math.floor(Math.random() * (rgbaObj.red.max - rgbaObj.red.min + 1)) + rgbaObj.red.min;
-        imageData.data[col + 1] = Math.floor(Math.random() * (rgbaObj.green.max - rgbaObj.green.min + 1)) + rgbaObj.green.min;
-        imageData.data[col + 2] = Math.floor(Math.random() * (rgbaObj.blue.max - rgbaObj.blue.min + 1)) + rgbaObj.blue.min;
+      const fillRange = (col: number, isBlank = false) => {
+        // imageData.data[col] = Math.floor(Math.random() * (rgbaObj.red.max - rgbaObj.red.min + 1)) + rgbaObj.red.min;
+        // imageData.data[col + 1] = Math.floor(Math.random() * (rgbaObj.green.max - rgbaObj.green.min + 1)) + rgbaObj.green.min;
+        // imageData.data[col + 2] = Math.floor(Math.random() * (rgbaObj.blue.max - rgbaObj.blue.min + 1)) + rgbaObj.blue.min;
+        // imageData.data[col + 3] = 255;
+        imageData.data[col] = 255;
+        imageData.data[col + 1] = 0;
+        imageData.data[col + 2] = 0;
         imageData.data[col + 3] = 255;
       };
       const fillHead = () => {
@@ -35,12 +39,20 @@ function Output() {
               col += 28;
               continue;
             }
-            fillRange(col);
-            fillRange(col + 8);
+            fillRange(col + row * 256);
+            fillRange(col + 32 + row * 256);
+
+            fillRange(128 + col + row * 256); // 대칭
+            fillRange(128 + col + 32 + row * 256); // 대칭
+            if (row >= 8) {
+              fillRange(col + 64 + row * 256);
+              fillRange(128 + col + 64 + row * 256); // 대칭
+            }
           }
         }
       };
       fillHead();
+      console.log(imageData);
       context.putImageData(imageData, 0, 0);
     }
   }, []);
@@ -50,11 +62,11 @@ function Output() {
         onClick={() => {
           dispatch(undo());
         }}
-        className="bg-red-300"
+        className="bg-red-300 mb-2"
       >
         돌아가기
       </button>
-      <canvas className="" ref={canvasRef} width={64} height={64}></canvas>
+      <canvas className=" bg-slate-500" ref={canvasRef} width={64} height={64}></canvas>
     </>
   );
 }
