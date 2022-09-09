@@ -1,6 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { generate } from "../store/isGeneratedSlice";
+import Swal from "sweetalert2";
 
 function Home() {
   const dispatch = useDispatch();
@@ -10,18 +11,20 @@ function Home() {
     maxId: "rMax" | "gMax" | "bMax" | "aMax";
   }
   interface rgbaState {
-    rMin: string | number;
-    rMax: string | number;
-    gMin: string | number;
-    gMax: string | number;
-    bMin: string | number;
-    bMax: string | number;
-    aMin: string | number;
-    aMax: string | number;
+    rMin: "" | number;
+    rMax: "" | number;
+    gMin: "" | number;
+    gMax: "" | number;
+    bMin: "" | number;
+    bMax: "" | number;
+    aMin: "" | number;
+    aMax: "" | number;
   }
+  type rgbaId = "rMin" | "gMin" | "bMin" | "aMin" | "rMax" | "gMax" | "bMax" | "aMax";
+  const rgbaIdList: rgbaId[] = ["rMin", "gMin", "bMin", "aMin", "rMax", "gMax", "bMax", "aMax"];
   const MIN_VALUE = 0;
   const MAX_VALUE = 255;
-  const [rgbaObj, setRgbaObj]: [rgbaState, any] = useState({ rMin: "", rMax: "", gMin: "", gMax: "", bMin: "", bMax: "", aMin: "", aMax: "" });
+  const [rgbaObj, setRgbaObj] = useState<rgbaState>({ rMin: 0, rMax: 255, gMin: 0, gMax: 255, bMin: 0, bMax: 255, aMin: 0, aMax: 255 });
   // const isInvalidValue = (id: string, value: number) => {
   //   switch (id) {
   //     case "redMin":
@@ -59,30 +62,28 @@ function Home() {
   //   }
   // };
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const id = event.target.id;
+    const id = event.target.id as rgbaId;
+    if (!event.target.value) {
+      setRgbaObj((prevRgbaObj: rgbaState) => {
+        prevRgbaObj[id] = "";
+        return { ...prevRgbaObj };
+      });
+      return;
+    }
+    console.log(rgbaObj);
     const input = parseInt(event.target.value);
-
-    if (id === "rMin" || id === "gMin" || id === "bMin" || id === "aMin" || id === "rMax" || id === "gMax" || id === "bMax" || id === "aMax") {
-      if (!event.target.value) {
-        setRgbaObj((prevRgbaObj: rgbaState) => {
-          prevRgbaObj[id] = "";
-          return { ...prevRgbaObj };
-        });
-        return;
-      }
-      if (input < MIN_VALUE) {
-        setRgbaObj((prevRgbaObj: rgbaState) => {
-          prevRgbaObj[id] = MIN_VALUE;
-          return { ...prevRgbaObj };
-        });
-      } else if (input > MAX_VALUE) {
-        return;
-      } else {
-        setRgbaObj((prevRgbaObj: rgbaState) => {
-          prevRgbaObj[id] = input;
-          return { ...prevRgbaObj };
-        });
-      }
+    if (input < MIN_VALUE) {
+      setRgbaObj((prevRgbaObj: rgbaState) => {
+        prevRgbaObj[id] = MIN_VALUE;
+        return { ...prevRgbaObj };
+      });
+    } else if (input > MAX_VALUE) {
+      return;
+    } else {
+      setRgbaObj((prevRgbaObj: rgbaState) => {
+        prevRgbaObj[id] = input;
+        return { ...prevRgbaObj };
+      });
     }
   };
   const rgbaList: rgbaList[] = [
@@ -105,9 +106,37 @@ function Home() {
       })}
       <button
         onClick={() => {
-          console.log();
-
-          // dispatch(generate());
+          console.log(rgbaObj);
+          const errorMessage = (color: "R" | "G" | "B" | "A") => `${color}의 최솟값이 ${color}의 최댓값보다 큽니다`;
+          const emptyRgba = rgbaIdList.find((key) => rgbaObj[key] === "");
+          if (emptyRgba) {
+            Swal.fire({
+              icon: "error",
+              text: `${emptyRgba}의 값이 없습니다`,
+            });
+          } else if (rgbaObj.rMin > rgbaObj.rMax) {
+            Swal.fire({
+              icon: "error",
+              text: errorMessage("R"),
+            });
+          } else if (rgbaObj.gMin > rgbaObj.gMax) {
+            Swal.fire({
+              icon: "error",
+              text: errorMessage("G"),
+            });
+          } else if (rgbaObj.bMin > rgbaObj.bMax) {
+            Swal.fire({
+              icon: "error",
+              text: errorMessage("B"),
+            });
+          } else if (rgbaObj.aMin > rgbaObj.aMax) {
+            Swal.fire({
+              icon: "error",
+              text: errorMessage("A"),
+            });
+          } else {
+            dispatch(generate());
+          }
         }}
         className="bg-teal-300"
       >

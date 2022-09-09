@@ -17,7 +17,8 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.2",
     "redux": "^4.2.0",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "sweetalert2": "^11.4.32"
   },
   "devDependencies": {
     "typescript": "^4.8.2",
