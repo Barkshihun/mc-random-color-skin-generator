@@ -4,7 +4,7 @@ const isGeneratedSlice = createSlice({
   name: "isGenerated",
   initialState,
   reducers: {
-    generate: (state) => {
+    generate: (state, action) => {
       state.value = true;
     },
     undo: (state) => {

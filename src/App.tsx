@@ -2,8 +2,8 @@ import { useState } from "react";
 import Output from "./components/Output";
 import Home from "./components/Home";
 import { createSelector } from "@reduxjs/toolkit";
-import { RootState } from "./store";
 import { useSelector } from "react-redux";
+import { RootState } from "./store";
 import "./App.css";
 
 function App() {

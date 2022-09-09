@@ -1,30 +1,20 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { generate } from "../store/isGeneratedSlice";
+import { createSelector } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 import Swal from "sweetalert2";
+import { rgbaObjChange } from "../store/rgbaObjSlice";
 
 function Home() {
   const dispatch = useDispatch();
-  interface rgbaList {
-    name: String;
-    minId: "rMin" | "gMin" | "bMin" | "aMin";
-    maxId: "rMax" | "gMax" | "bMax" | "aMax";
-  }
-  interface rgbaState {
-    rMin: "" | number;
-    rMax: "" | number;
-    gMin: "" | number;
-    gMax: "" | number;
-    bMin: "" | number;
-    bMax: "" | number;
-    aMin: "" | number;
-    aMax: "" | number;
-  }
-  type rgbaId = "rMin" | "gMin" | "bMin" | "aMin" | "rMax" | "gMax" | "bMax" | "aMax";
+
   const rgbaIdList: rgbaId[] = ["rMin", "gMin", "bMin", "aMin", "rMax", "gMax", "bMax", "aMax"];
   const MIN_VALUE = 0;
   const MAX_VALUE = 255;
-  const [rgbaObj, setRgbaObj] = useState<rgbaState>({ rMin: 0, rMax: 255, gMin: 0, gMax: 255, bMin: 0, bMax: 255, aMin: 0, aMax: 255 });
+  const getRgbaObj = (state: RootState) => state.rgbaObj.value;
+  const rgbaObjSelector = createSelector(getRgbaObj, (rgbaObj) => rgbaObj);
+  const rgbaObj = useSelector(rgbaObjSelector);
   // const isInvalidValue = (id: string, value: number) => {
   //   switch (id) {
   //     case "redMin":
@@ -64,26 +54,19 @@ function Home() {
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const id = event.target.id as rgbaId;
     if (!event.target.value) {
-      setRgbaObj((prevRgbaObj: rgbaState) => {
-        prevRgbaObj[id] = "";
-        return { ...prevRgbaObj };
-      });
+      dispatch(rgbaObjChange({ id, input: "" }));
       return;
     }
     console.log(rgbaObj);
     const input = parseInt(event.target.value);
     if (input < MIN_VALUE) {
-      setRgbaObj((prevRgbaObj: rgbaState) => {
-        prevRgbaObj[id] = MIN_VALUE;
-        return { ...prevRgbaObj };
-      });
+      dispatch(rgbaObjChange({ id, input: MIN_VALUE }));
+      return;
     } else if (input > MAX_VALUE) {
+      dispatch(rgbaObjChange({ id, input: MAX_VALUE }));
       return;
     } else {
-      setRgbaObj((prevRgbaObj: rgbaState) => {
-        prevRgbaObj[id] = input;
-        return { ...prevRgbaObj };
-      });
+      dispatch(rgbaObjChange({ id, input }));
     }
   };
   const rgbaList: rgbaList[] = [
@@ -135,7 +118,7 @@ function Home() {
               text: errorMessage("A"),
             });
           } else {
-            dispatch(generate());
+            dispatch(generate(rgbaObj));
           }
         }}
         className="bg-teal-300"
