@@ -21,7 +21,7 @@ function Home() {
   }
   const MIN_VALUE = 0;
   const MAX_VALUE = 255;
-  const [rgbaValue, setRgbaValue]: [rgbaState, any] = useState({ rMin: "", rMax: "", gMin: "", gMax: "", bMin: "", bMax: "", aMin: "", aMax: "" });
+  const [rgbaObj, setRgbaObj]: [rgbaState, any] = useState({ rMin: "", rMax: "", gMin: "", gMax: "", bMin: "", bMax: "", aMin: "", aMax: "" });
   // const isInvalidValue = (id: string, value: number) => {
   //   switch (id) {
   //     case "redMin":
@@ -64,31 +64,23 @@ function Home() {
 
     if (id === "rMin" || id === "gMin" || id === "bMin" || id === "aMin" || id === "rMax" || id === "gMax" || id === "bMax" || id === "aMax") {
       if (!event.target.value) {
-        setRgbaValue((prevRgbaValue: rgbaState) => {
-          prevRgbaValue[id] = "";
-          return { ...prevRgbaValue };
+        setRgbaObj((prevRgbaObj: rgbaState) => {
+          prevRgbaObj[id] = "";
+          return { ...prevRgbaObj };
         });
         return;
       }
-      // if (event.target.value === "0") {
-      //   setRgbaValue((prevRgbaValue: rgbaState) => {
-      //     console.log(event.target.value, "AAA");
-      //     prevRgbaValue[id] = `${input}`;
-      //     return { ...prevRgbaValue };
-      //   });
-      //   return;
-      // }
       if (input < MIN_VALUE) {
-        setRgbaValue((prevRgbaValue: rgbaState) => {
-          prevRgbaValue[id] = MIN_VALUE;
-          return { ...prevRgbaValue };
+        setRgbaObj((prevRgbaObj: rgbaState) => {
+          prevRgbaObj[id] = MIN_VALUE;
+          return { ...prevRgbaObj };
         });
       } else if (input > MAX_VALUE) {
         return;
       } else {
-        setRgbaValue((prevRgbaValue: rgbaState) => {
-          prevRgbaValue[id] = input;
-          return { ...prevRgbaValue };
+        setRgbaObj((prevRgbaObj: rgbaState) => {
+          prevRgbaObj[id] = input;
+          return { ...prevRgbaObj };
         });
       }
     }
@@ -106,14 +98,16 @@ function Home() {
         return (
           <div className="w-full flex justify-between" key={i}>
             <span>{rgbaList.name}</span>
-            <input id={rgbaList.minId} value={`${rgbaValue[rgbaList.minId]}`} placeholder="최소값" type={"number"} min={0} max={255} onChange={onChange} className=" border w-3/4" />
-            <input id={rgbaList.maxId} value={`${rgbaValue[rgbaList.maxId]}`} placeholder="최댓값" type={"number"} min={0} max={255} onChange={onChange} className=" border w-3/4" />
+            <input id={rgbaList.minId} value={`${rgbaObj[rgbaList.minId]}`} placeholder="최소값" type={"number"} min={0} max={255} onChange={onChange} className=" border w-3/4" />
+            <input id={rgbaList.maxId} value={`${rgbaObj[rgbaList.maxId]}`} placeholder="최댓값" type={"number"} min={0} max={255} onChange={onChange} className=" border w-3/4" />
           </div>
         );
       })}
       <button
         onClick={() => {
-          dispatch(generate());
+          console.log();
+
+          // dispatch(generate());
         }}
         className="bg-teal-300"
       >
