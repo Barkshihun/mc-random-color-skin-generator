@@ -22,7 +22,7 @@ function Output() {
   const LIMB = {
     START_COL_DATA: 0,
     get END_COL_DATA() {
-      return this.START_COL_DATA + 32;
+      return this.START_COL_DATA + 64;
     },
     START_ROW: 0,
     get END_ROW() {
@@ -77,17 +77,11 @@ function Output() {
               col += 12;
               continue;
             }
-            if (row >= LIMB.START_ROW + 4) {
-              fillPixel(col + row * ROW_DATA);
-              fillPixel(col + LIMB.ONE_BOX_COL_DATA * 2 + row * ROW_DATA);
-              fillPixel(col + (row + LIMB.ROW_SIZE) * ROW_DATA, true); // Wear
-              fillPixel(col + LIMB.ONE_BOX_COL_DATA * 2 + (row + LIMB.ROW_SIZE) * ROW_DATA, true); // Wear
-              continue;
+            if (col === startColData + 48 && row < LIMB.START_ROW + 4) {
+              break;
             }
             fillPixel(col + row * ROW_DATA);
-            fillPixel(col + LIMB.ONE_BOX_COL_DATA + row * ROW_DATA);
             fillPixel(col + (row + LIMB.ROW_SIZE) * ROW_DATA, true); // Wear
-            fillPixel(col + LIMB.ONE_BOX_COL_DATA + (row + LIMB.ROW_SIZE) * ROW_DATA, true); // Wear
           }
         }
       };
@@ -113,9 +107,9 @@ function Output() {
         }
       };
       fillHead();
-      // fillLeg(0, 16);
-      // fillLeg(160, 16);
-      // fillBody();
+      fillLeg(0, 16);
+      fillLeg(160, 16);
+      fillBody();
       context.putImageData(imageData, 0, 0);
     }
   }, []);
