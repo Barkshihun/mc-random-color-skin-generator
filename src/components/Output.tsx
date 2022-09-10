@@ -12,13 +12,24 @@ function Output() {
   const getRgbaObj = (state: RootState) => state.rgbaObj.value;
   const rgbaObjSelector = createSelector(getRgbaObj, (rgbaObj) => rgbaObj);
   const rgbaObj = useSelector(rgbaObjSelector) as RgbaObj<number>;
+  const ROW_DATA = 256;
   const HEAD = {
     START_COL_DATA: 0,
     END_COL_DATA: 64,
-    START_ROW: 0,
     END_ROW: 16,
-    ROW_DATA: 256,
     ONE_BOX_COL_DATA: 32,
+  };
+  const LIMB = {
+    START_COL_DATA: 0,
+    get END_COL_DATA() {
+      return this.START_COL_DATA + 32;
+    },
+    START_ROW: 1,
+    get END_ROW() {
+      return this.START_ROW + 16;
+    },
+    ONE_BOX_COL_DATA: 16,
+    ROW_SIZE: 16,
   };
   useEffect(() => {
     const context = canvasRef?.current?.getContext("2d");
@@ -29,33 +40,59 @@ function Output() {
         // imageData.data[pixelData + 1] = Math.floor(Math.random() * (rgbaObj.green.max - rgbaObj.green.min + 1)) + rgbaObj.green.min;
         // imageData.data[pixelData + 2] = Math.floor(Math.random() * (rgbaObj.blue.max - rgbaObj.blue.min + 1)) + rgbaObj.blue.min;
         // imageData.data[pixelData + 3] = 255;
-        imageData.data[pixelData] = 255;
+        imageData.data[pixelData] = 0;
         imageData.data[pixelData + 1] = 0;
-        imageData.data[pixelData + 2] = 0;
-        imageData.data[pixelData + 3] = isWear ? 100 : 255;
+        imageData.data[pixelData + 2] = 255;
+        imageData.data[pixelData + 3] = isWear ? 50 : 255;
       };
       const fillHead = () => {
-        for (let row = HEAD.START_ROW; row < HEAD.END_ROW; row++) {
+        for (let row = 0; row < HEAD.END_ROW; row++) {
           for (let col = HEAD.START_COL_DATA; col < HEAD.END_COL_DATA; col += 4) {
             if (col === 0 && row < 8) {
               col += 28;
               continue;
             }
             if (row >= 8) {
-              fillPixel(col + row * HEAD.ROW_DATA);
-              fillPixel(col + HEAD.ONE_BOX_COL_DATA * 2 + row * HEAD.ROW_DATA);
-              fillPixel(col + HEAD.ONE_BOX_COL_DATA * 4 + row * HEAD.ROW_DATA, true); // Wear
-              fillPixel(col + HEAD.ONE_BOX_COL_DATA * 6 + row * HEAD.ROW_DATA, true); // Wear
+              fillPixel(col + row * ROW_DATA);
+              fillPixel(col + HEAD.ONE_BOX_COL_DATA * 2 + row * ROW_DATA);
+              fillPixel(col + HEAD.ONE_BOX_COL_DATA * 4 + row * ROW_DATA, true); // Wear
+              fillPixel(col + HEAD.ONE_BOX_COL_DATA * 6 + row * ROW_DATA, true); // Wear
               continue;
             }
-            fillPixel(col + row * HEAD.ROW_DATA);
-            fillPixel(col + HEAD.ONE_BOX_COL_DATA + row * HEAD.ROW_DATA);
-            fillPixel(col + HEAD.ONE_BOX_COL_DATA * 4 + row * HEAD.ROW_DATA, true); // Wear
-            fillPixel(col + HEAD.ONE_BOX_COL_DATA * 5 + row * HEAD.ROW_DATA, true); // Wear
+            fillPixel(col + row * ROW_DATA);
+            fillPixel(col + HEAD.ONE_BOX_COL_DATA + row * ROW_DATA);
+            fillPixel(col + HEAD.ONE_BOX_COL_DATA * 4 + row * ROW_DATA, true); // Wear
+            fillPixel(col + HEAD.ONE_BOX_COL_DATA * 5 + row * ROW_DATA, true); // Wear
           }
         }
       };
+      const fillLeg = (startColData: number, startRow: number) => {
+        LIMB.START_COL_DATA = startColData;
+        LIMB.START_ROW = startRow;
+        for (let row = LIMB.START_ROW; row < LIMB.END_ROW; row++) {
+          for (let col = LIMB.START_COL_DATA; col < LIMB.END_COL_DATA; col += 4) {
+            if (col === startColData && row < LIMB.START_ROW + 4) {
+              col += 12;
+              continue;
+            }
+            if (row >= LIMB.START_ROW + 4) {
+              fillPixel(col + row * ROW_DATA);
+              fillPixel(col + LIMB.ONE_BOX_COL_DATA * 2 + row * ROW_DATA);
+              fillPixel(col + (row + LIMB.ROW_SIZE) * ROW_DATA, true); // Wear
+              fillPixel(col + LIMB.ONE_BOX_COL_DATA * 2 + (row + LIMB.ROW_SIZE) * ROW_DATA, true); // Wear
+              continue;
+            }
+            fillPixel(col + row * ROW_DATA);
+            fillPixel(col + LIMB.ONE_BOX_COL_DATA + row * ROW_DATA);
+            fillPixel(col + (row + LIMB.ROW_SIZE) * ROW_DATA, true); // Wear
+            fillPixel(col + LIMB.ONE_BOX_COL_DATA + (row + LIMB.ROW_SIZE) * ROW_DATA, true); // Wear
+          }
+        }
+      };
+
       fillHead();
+      fillLeg(0, 16);
+      fillLeg(164, 16);
       context.putImageData(imageData, 0, 0);
     }
   }, []);
