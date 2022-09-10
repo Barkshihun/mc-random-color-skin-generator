@@ -24,10 +24,18 @@ function Output() {
     get END_COL_DATA() {
       return this.START_COL_DATA + 32;
     },
-    START_ROW: 1,
+    START_ROW: 0,
     get END_ROW() {
-      return this.START_ROW + 16;
+      return this.START_ROW + this.ROW_SIZE;
     },
+    ONE_BOX_COL_DATA: 16,
+    ROW_SIZE: 16,
+  };
+  const BODY = {
+    START_COL_DATA: 64,
+    END_COL_DATA: 126,
+    START_ROW: 16,
+    END_ROW: 32,
     ONE_BOX_COL_DATA: 16,
     ROW_SIZE: 16,
   };
@@ -89,10 +97,31 @@ function Output() {
           }
         }
       };
-
+      const fillBody = () => {
+        for (let row = 16; row < BODY.END_ROW; row++) {
+          for (let col = BODY.START_COL_DATA; col < BODY.END_COL_DATA; col += 4) {
+            if (col === BODY.START_COL_DATA && row < 16 + 4) {
+              col += 12;
+              continue;
+            }
+            if (row >= 16 + 4) {
+              fillPixel(col + row * ROW_DATA);
+              fillPixel(col + BODY.ONE_BOX_COL_DATA * 2 + row * ROW_DATA);
+              fillPixel(col + (row + BODY.ROW_SIZE) * ROW_DATA, true); // Wear
+              fillPixel(col + BODY.ONE_BOX_COL_DATA * 2 + (row + BODY.ROW_SIZE) * ROW_DATA, true); // Wear
+              continue;
+            }
+            fillPixel(col + row * ROW_DATA);
+            fillPixel(col + BODY.ONE_BOX_COL_DATA + row * ROW_DATA);
+            fillPixel(col + (row + BODY.ROW_SIZE) * ROW_DATA, true); // Wear
+            fillPixel(col + BODY.ONE_BOX_COL_DATA + (row + BODY.ROW_SIZE) * ROW_DATA, true); // Wear
+          }
+        }
+      };
       fillHead();
       fillLeg(0, 16);
-      fillLeg(164, 16);
+      fillLeg(160, 16);
+      fillBody();
       context.putImageData(imageData, 0, 0);
     }
   }, []);
