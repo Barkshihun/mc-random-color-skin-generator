@@ -13,46 +13,49 @@ function Output() {
   const rgbaObjSelector = createSelector(getRgbaObj, (rgbaObj) => rgbaObj);
   const rgbaObj = useSelector(rgbaObjSelector) as RgbaObj<number>;
   const HEAD = {
-    START_COL: 0,
-    END_COL: 64,
+    START_COL_DATA: 0,
+    END_COL_DATA: 64,
     START_ROW: 0,
     END_ROW: 16,
+    ROW_DATA: 256,
+    ONE_BOX_COL_DATA: 32,
   };
   useEffect(() => {
     const context = canvasRef?.current?.getContext("2d");
     if (context) {
       const imageData = context.createImageData(64, 64);
-      const fillRange = (col: number, isBlank = false) => {
-        // imageData.data[col] = Math.floor(Math.random() * (rgbaObj.red.max - rgbaObj.red.min + 1)) + rgbaObj.red.min;
-        // imageData.data[col + 1] = Math.floor(Math.random() * (rgbaObj.green.max - rgbaObj.green.min + 1)) + rgbaObj.green.min;
-        // imageData.data[col + 2] = Math.floor(Math.random() * (rgbaObj.blue.max - rgbaObj.blue.min + 1)) + rgbaObj.blue.min;
-        // imageData.data[col + 3] = 255;
-        imageData.data[col] = 255;
-        imageData.data[col + 1] = 0;
-        imageData.data[col + 2] = 0;
-        imageData.data[col + 3] = 255;
+      const fillPixel = (pixelData: number, isWear = false) => {
+        // imageData.data[pixelData] = Math.floor(Math.random() * (rgbaObj.red.max - rgbaObj.red.min + 1)) + rgbaObj.red.min;
+        // imageData.data[pixelData + 1] = Math.floor(Math.random() * (rgbaObj.green.max - rgbaObj.green.min + 1)) + rgbaObj.green.min;
+        // imageData.data[pixelData + 2] = Math.floor(Math.random() * (rgbaObj.blue.max - rgbaObj.blue.min + 1)) + rgbaObj.blue.min;
+        // imageData.data[pixelData + 3] = 255;
+        imageData.data[pixelData] = 255;
+        imageData.data[pixelData + 1] = 0;
+        imageData.data[pixelData + 2] = 0;
+        imageData.data[pixelData + 3] = isWear ? 100 : 255;
       };
       const fillHead = () => {
         for (let row = HEAD.START_ROW; row < HEAD.END_ROW; row++) {
-          for (let col = HEAD.START_COL; col < HEAD.END_COL; col += 4) {
+          for (let col = HEAD.START_COL_DATA; col < HEAD.END_COL_DATA; col += 4) {
             if (col === 0 && row < 8) {
               col += 28;
               continue;
             }
-            fillRange(col + row * 256);
-            fillRange(col + 32 + row * 256);
-
-            fillRange(128 + col + row * 256); // 대칭
-            fillRange(128 + col + 32 + row * 256); // 대칭
             if (row >= 8) {
-              fillRange(col + 64 + row * 256);
-              fillRange(128 + col + 64 + row * 256); // 대칭
+              fillPixel(col + row * HEAD.ROW_DATA);
+              fillPixel(col + HEAD.ONE_BOX_COL_DATA * 2 + row * HEAD.ROW_DATA);
+              fillPixel(col + HEAD.ONE_BOX_COL_DATA * 4 + row * HEAD.ROW_DATA, true); // Wear
+              fillPixel(col + HEAD.ONE_BOX_COL_DATA * 6 + row * HEAD.ROW_DATA, true); // Wear
+              continue;
             }
+            fillPixel(col + row * HEAD.ROW_DATA);
+            fillPixel(col + HEAD.ONE_BOX_COL_DATA + row * HEAD.ROW_DATA);
+            fillPixel(col + HEAD.ONE_BOX_COL_DATA * 4 + row * HEAD.ROW_DATA, true); // Wear
+            fillPixel(col + HEAD.ONE_BOX_COL_DATA * 5 + row * HEAD.ROW_DATA, true); // Wear
           }
         }
       };
       fillHead();
-      console.log(imageData);
       context.putImageData(imageData, 0, 0);
     }
   }, []);
