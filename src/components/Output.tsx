@@ -15,7 +15,7 @@ function Output() {
   const ROW_DATA = 256;
   const HEAD = {
     START_COL_DATA: 0,
-    END_COL_DATA: 64,
+    END_COL_DATA: 128,
     END_ROW: 16,
     ONE_BOX_COL_DATA: 32,
   };
@@ -60,17 +60,11 @@ function Output() {
               col += 28;
               continue;
             }
-            if (row >= 8) {
-              fillPixel(col + row * ROW_DATA);
-              fillPixel(col + HEAD.ONE_BOX_COL_DATA * 2 + row * ROW_DATA);
-              fillPixel(col + HEAD.ONE_BOX_COL_DATA * 4 + row * ROW_DATA, true); // Wear
-              fillPixel(col + HEAD.ONE_BOX_COL_DATA * 6 + row * ROW_DATA, true); // Wear
-              continue;
+            if (col === 96 && row < 8) {
+              break;
             }
             fillPixel(col + row * ROW_DATA);
-            fillPixel(col + HEAD.ONE_BOX_COL_DATA + row * ROW_DATA);
             fillPixel(col + HEAD.ONE_BOX_COL_DATA * 4 + row * ROW_DATA, true); // Wear
-            fillPixel(col + HEAD.ONE_BOX_COL_DATA * 5 + row * ROW_DATA, true); // Wear
           }
         }
       };
@@ -119,9 +113,9 @@ function Output() {
         }
       };
       fillHead();
-      fillLeg(0, 16);
-      fillLeg(160, 16);
-      fillBody();
+      // fillLeg(0, 16);
+      // fillLeg(160, 16);
+      // fillBody();
       context.putImageData(imageData, 0, 0);
     }
   }, []);
