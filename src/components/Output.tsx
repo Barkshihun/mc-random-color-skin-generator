@@ -20,16 +20,9 @@ function Output() {
     ONE_BOX_COL_DATA: 32,
   };
   const LIMB = {
-    START_COL_DATA: 0,
-    get END_COL_DATA() {
-      return this.START_COL_DATA + 64;
-    },
-    START_ROW: 0,
-    get END_ROW() {
-      return this.START_ROW + this.ROW_SIZE;
-    },
     ONE_BOX_COL_DATA: 16,
     ROW_SIZE: 16,
+    WIDTH_DATA: 64,
   };
   const BODY = {
     START_COL_DATA: 64,
@@ -69,19 +62,45 @@ function Output() {
         }
       };
       const fillRight = (direction: "leg" | "arm") => {
-        LIMB.START_COL_DATA = direction === "leg" ? 0 : 160;
-        LIMB.START_ROW = 16;
-        for (let row = LIMB.START_ROW; row < LIMB.END_ROW; row++) {
-          for (let col = LIMB.START_COL_DATA; col < LIMB.END_COL_DATA; col += 4) {
-            if (col === LIMB.START_COL_DATA && row < LIMB.START_ROW + 4) {
+        const START_COL_DATA = direction === "leg" ? 0 : 160;
+        const END_COL_DATA = START_COL_DATA + 64;
+        const START_ROW = 16;
+        const END_ROW = START_ROW + LIMB.ROW_SIZE;
+        for (let row = START_ROW; row < END_ROW; row++) {
+          for (let col = START_COL_DATA; col < END_COL_DATA; col += 4) {
+            if (col === START_COL_DATA && row < START_ROW + 4) {
               col += 12;
               continue;
             }
-            if (col === LIMB.START_COL_DATA + 48 && row < LIMB.START_ROW + 4) {
+            if (col === START_COL_DATA + 48 && row < START_ROW + 4) {
               break;
             }
             fillPixel(col + row * ROW_DATA);
             fillPixel(col + (row + LIMB.ROW_SIZE) * ROW_DATA, true); // Wear
+          }
+        }
+      };
+      const fillLeft = (direction: "leg" | "arm") => {
+        const START_COL_DATA = direction === "leg" ? 0 : 128;
+        const END_COL_DATA = START_COL_DATA + 64;
+        const START_ROW = 48;
+        const END_ROW = START_ROW + LIMB.ROW_SIZE;
+        for (let row = START_ROW; row < END_ROW; row++) {
+          for (let col = START_COL_DATA; col < END_COL_DATA; col += 4) {
+            if (col === START_COL_DATA && row < START_ROW + 4) {
+              col += 12;
+              continue;
+            }
+            if (col === START_COL_DATA + 48 && row < START_ROW + 4) {
+              break;
+            }
+            if (direction === "leg") {
+              fillPixel(col + row * ROW_DATA, true); // Wear
+              fillPixel(col + row * ROW_DATA + LIMB.WIDTH_DATA);
+            } else {
+              fillPixel(col + row * ROW_DATA);
+              fillPixel(col + row * ROW_DATA + LIMB.WIDTH_DATA, true); // Wear
+            }
           }
         }
       };
@@ -104,6 +123,8 @@ function Output() {
       fillRight("leg");
       fillRight("arm");
       fillBody();
+      fillLeft("leg");
+      fillLeft("arm");
       context.putImageData(imageData, 0, 0);
     }
   }, []);
