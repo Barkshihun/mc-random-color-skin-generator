@@ -18,6 +18,7 @@
     "react-redux": "^8.0.2",
     "redux": "^4.2.0",
     "redux-logger": "^3.0.6",
+    "skinview3d": "^3.0.0-alpha.1",
     "sweetalert2": "^11.4.32"
   },
   "devDependencies": {
