@@ -68,16 +68,16 @@ function Output() {
           }
         }
       };
-      const fillLeg = (startColData: number, startRow: number) => {
-        LIMB.START_COL_DATA = startColData;
-        LIMB.START_ROW = startRow;
+      const fillRight = (direction: "leg" | "arm") => {
+        LIMB.START_COL_DATA = direction === "leg" ? 0 : 160;
+        LIMB.START_ROW = 16;
         for (let row = LIMB.START_ROW; row < LIMB.END_ROW; row++) {
           for (let col = LIMB.START_COL_DATA; col < LIMB.END_COL_DATA; col += 4) {
-            if (col === startColData && row < LIMB.START_ROW + 4) {
+            if (col === LIMB.START_COL_DATA && row < LIMB.START_ROW + 4) {
               col += 12;
               continue;
             }
-            if (col === startColData + 48 && row < LIMB.START_ROW + 4) {
+            if (col === LIMB.START_COL_DATA + 48 && row < LIMB.START_ROW + 4) {
               break;
             }
             fillPixel(col + row * ROW_DATA);
@@ -101,8 +101,8 @@ function Output() {
         }
       };
       fillHead();
-      fillLeg(0, 16);
-      fillLeg(160, 16);
+      fillRight("leg");
+      fillRight("arm");
       fillBody();
       context.putImageData(imageData, 0, 0);
     }
