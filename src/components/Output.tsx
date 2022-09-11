@@ -21,7 +21,7 @@ function Output() {
   };
   const LIMB = {
     ONE_BOX_COL_DATA: 16,
-    ROW_SIZE: 16,
+    TOTAL_ROW: 16,
     WIDTH_DATA: 64,
   };
   const BODY = {
@@ -29,8 +29,7 @@ function Output() {
     END_COL_DATA: 158,
     START_ROW: 16,
     END_ROW: 32,
-    ONE_BOX_COL_DATA: 16,
-    ROW_SIZE: 16,
+    TOTAL_ROW: 16,
   };
   useEffect(() => {
     const context = canvasRef?.current?.getContext("2d");
@@ -40,7 +39,7 @@ function Output() {
         // imageData.data[pixelData] = Math.floor(Math.random() * (rgbaObj.red.max - rgbaObj.red.min + 1)) + rgbaObj.red.min;
         // imageData.data[pixelData + 1] = Math.floor(Math.random() * (rgbaObj.green.max - rgbaObj.green.min + 1)) + rgbaObj.green.min;
         // imageData.data[pixelData + 2] = Math.floor(Math.random() * (rgbaObj.blue.max - rgbaObj.blue.min + 1)) + rgbaObj.blue.min;
-        // imageData.data[pixelData + 3] = 255;
+        // imageData.data[pixelData + 3] = isWear ? Math.floor(Math.random() * (rgbaObj.alpha.max - rgbaObj.alpha.min + 1)) + rgbaObj.alpha.min : 255;
         imageData.data[pixelData] = 0;
         imageData.data[pixelData + 1] = 0;
         imageData.data[pixelData + 2] = 255;
@@ -65,7 +64,7 @@ function Output() {
         const START_COL_DATA = direction === "leg" ? 0 : 160;
         const END_COL_DATA = START_COL_DATA + 64;
         const START_ROW = 16;
-        const END_ROW = START_ROW + LIMB.ROW_SIZE;
+        const END_ROW = START_ROW + LIMB.TOTAL_ROW;
         for (let row = START_ROW; row < END_ROW; row++) {
           for (let col = START_COL_DATA; col < END_COL_DATA; col += 4) {
             if (col === START_COL_DATA && row < START_ROW + 4) {
@@ -76,7 +75,7 @@ function Output() {
               break;
             }
             fillPixel(col + row * ROW_DATA);
-            fillPixel(col + (row + LIMB.ROW_SIZE) * ROW_DATA, true); // Wear
+            fillPixel(col + (row + LIMB.TOTAL_ROW) * ROW_DATA, true); // Wear
           }
         }
       };
@@ -84,7 +83,7 @@ function Output() {
         const START_COL_DATA = direction === "leg" ? 0 : 128;
         const END_COL_DATA = START_COL_DATA + 64;
         const START_ROW = 48;
-        const END_ROW = START_ROW + LIMB.ROW_SIZE;
+        const END_ROW = START_ROW + LIMB.TOTAL_ROW;
         for (let row = START_ROW; row < END_ROW; row++) {
           for (let col = START_COL_DATA; col < END_COL_DATA; col += 4) {
             if (col === START_COL_DATA && row < START_ROW + 4) {
@@ -105,7 +104,7 @@ function Output() {
         }
       };
       const fillBody = () => {
-        for (let row = 16; row < BODY.END_ROW; row++) {
+        for (let row = BODY.START_ROW; row < BODY.END_ROW; row++) {
           for (let col = BODY.START_COL_DATA; col < BODY.END_COL_DATA; col += 4) {
             if (col === BODY.START_COL_DATA && row < 20) {
               col += 12;
@@ -115,7 +114,7 @@ function Output() {
               break;
             }
             fillPixel(col + row * ROW_DATA);
-            fillPixel(col + (row + BODY.ROW_SIZE) * ROW_DATA, true); // Wear
+            fillPixel(col + (row + BODY.TOTAL_ROW) * ROW_DATA, true); // Wear
           }
         }
       };
