@@ -13,6 +13,7 @@ function Output() {
 
   const skinPngCanvasRef = useRef<HTMLCanvasElement>(null);
   const skinCanvasRef = useRef<HTMLCanvasElement>(null);
+  let skinPngCanvas: HTMLCanvasElement;
 
   const ROW_DATA = 256;
   const HEAD = {
@@ -33,11 +34,10 @@ function Output() {
     END_ROW: 32,
     TOTAL_ROW: 16,
   };
-
   useEffect(() => {
     const skinCanvas = skinCanvasRef.current as HTMLCanvasElement;
 
-    const skinPngCanvas = skinPngCanvasRef.current as HTMLCanvasElement;
+    skinPngCanvas = skinPngCanvasRef.current as HTMLCanvasElement;
     const skinPngCanvasCtx = skinPngCanvas.getContext("2d") as CanvasRenderingContext2D;
     const imageData = skinPngCanvasCtx.createImageData(64, 64);
     const fillPixel = (pixelData: number, isWear = false) => {
@@ -139,6 +139,13 @@ function Output() {
     });
     skinViewer.autoRotate = true;
   }, []);
+  const onDownload = () => {
+    const dataURL = skinPngCanvas.toDataURL();
+    const aTag = document.createElement("a");
+    aTag.download = "랜덤색깔스킨.png";
+    aTag.href = dataURL;
+    aTag.click();
+  };
   return (
     <>
       <button
@@ -148,6 +155,9 @@ function Output() {
         className="bg-red-300 mb-2"
       >
         돌아가기
+      </button>
+      <button onClick={onDownload} className="bg-blue-300 mb-2">
+        다운로드
       </button>
       <canvas className=" bg-slate-500 w-32 h-32" ref={skinPngCanvasRef} width={64} height={64}></canvas>
       <canvas className=" bg-green-500" ref={skinCanvasRef} width={300} height={400}></canvas>
