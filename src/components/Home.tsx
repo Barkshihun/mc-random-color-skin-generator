@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { generate } from "../store/isGeneratedSlice";
 import { createSelector } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { rgbaObjChange } from "../store/rgbaObjSlice";
 import { RootState } from "../store";
 
@@ -36,31 +37,45 @@ function Home() {
     { displayName: "B", color: "blue" },
     { displayName: "A", color: "alpha" },
   ];
-  const checkRgbaObj = () => {
+  const makeErrMsgArray = () => {
     const rgbaObjKeyList = ["red", "green", "blue", "alpha"] as Rgba[];
-    let errMsgArray: string[] = [];
+    let errMsgArray: JSX.Element[] = [];
     rgbaObjKeyList.forEach((key) => {
       const min = rgbaObj[key].min;
       const max = rgbaObj[key].max;
       const color = key.replace(key[0], key[0].toUpperCase());
+      const cssColor = color === "Alpha" ? "gray" : color;
       if (min === "") {
-        errMsgArray.push(`${color}의 최솟값이 없습니다`);
+        errMsgArray.push(
+          <p key={`${color}minErr`}>
+            <span style={{ color: cssColor }}>{color}</span>의 최솟값이 없습니다.
+          </p>
+        );
       }
       if (max === "") {
-        errMsgArray.push(`${color}의 최댓값이 없습니다`);
+        errMsgArray.push(
+          <p key={`${color}maxErr`}>
+            <span style={{ color: cssColor }}>{color}</span>의 최댓값이 없습니다.
+          </p>
+        );
       }
       if (min > max) {
-        errMsgArray.push(`${color}의 최솟값이 ${color}의 최댓값보다 큽니다`);
+        errMsgArray.push(
+          <p key={`${color}minBigthanMaxErr`}>
+            <span style={{ color: cssColor }}>{color}</span>의 최솟값이 <span style={{ color: cssColor }}>{color}</span>의 최댓값보다 큽니다.
+          </p>
+        );
       }
     });
     return errMsgArray;
   };
+  const MySwal = withReactContent(Swal);
   const onGenerate = () => {
-    const errMsgArray = checkRgbaObj();
+    const errMsgArray = makeErrMsgArray();
     if (errMsgArray.length !== 0) {
-      Swal.fire({
+      MySwal.fire({
         icon: "error",
-        text: errMsgArray.join("\n"),
+        html: <>{errMsgArray}</>,
       });
     } else {
       dispatch(generate(rgbaObj));
