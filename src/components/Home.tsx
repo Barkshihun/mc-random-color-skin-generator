@@ -81,6 +81,20 @@ function Home() {
       dispatch(generate(rgbaObj));
     }
   };
+  const onRandomClick = () => {
+    let color: Rgba;
+    for (color in rgbaObj) {
+      const random1 = Math.floor(Math.random() * 254);
+      const random2 = Math.floor(Math.random() * 254);
+      if (random1 > random2) {
+        dispatch(rgbaObjChange({ color, limit: "min", input: random2 }));
+        dispatch(rgbaObjChange({ color, limit: "max", input: random1 }));
+      } else {
+        dispatch(rgbaObjChange({ color, limit: "min", input: random1 }));
+        dispatch(rgbaObjChange({ color, limit: "max", input: random2 }));
+      }
+    }
+  };
   return (
     <section>
       <h1>랜덤 색깔 스킨 생성기</h1>
@@ -115,9 +129,14 @@ function Home() {
           </div>
         );
       })}
-      <button onClick={onGenerate} className="bg-teal-300">
-        생성하기
-      </button>
+      <div>
+        <button onClick={onRandomClick} className="bg-blue-300">
+          범위 랜덤 설정
+        </button>
+        <button onClick={onGenerate} className="bg-teal-300">
+          생성하기
+        </button>
+      </div>
     </section>
   );
 }
