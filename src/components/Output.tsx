@@ -131,13 +131,12 @@ function Output() {
     fillLeft("leg");
     fillLeft("arm");
     skinPngCanvasCtx.putImageData(imageData, 0, 0);
-    let skinViewer = new SkinViewer({
+    new SkinViewer({
       canvas: skinCanvas,
       width: 300,
       height: 400,
       skin: skinPngCanvas,
     });
-    skinViewer.autoRotate = true;
   }, []);
   const onDownload = () => {
     const dataURL = skinPngCanvas.toDataURL();
