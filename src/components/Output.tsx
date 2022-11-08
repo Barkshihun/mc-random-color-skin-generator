@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { undo } from "../store/isGeneratedSlice";
 import { RootState } from "../store";
 import { SkinViewer } from "skinview3d";
+import Swal from "sweetalert2";
 
 function Output() {
   const dispatch = useDispatch();
@@ -139,11 +140,21 @@ function Output() {
     });
   }, []);
   const onDownload = () => {
-    const dataURL = skinPngCanvas.toDataURL();
-    const aTag = document.createElement("a");
-    aTag.download = "랜덤색깔스킨.png";
-    aTag.href = dataURL;
-    aTag.click();
+    Swal.fire({
+      title: "파일을 다운로드하시겠습니까?",
+      text: "파일명",
+      input: "text",
+      inputValue: "랜덤 색깔 스킨",
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const dataURL = skinPngCanvas.toDataURL();
+        const aTag = document.createElement("a");
+        aTag.download = result.value ? `${result.value}.png` : "랜덤 색깔 스킨.png";
+        aTag.href = dataURL;
+        aTag.click();
+      }
+    });
   };
   return (
     <>
