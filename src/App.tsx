@@ -1,6 +1,6 @@
 import { useState } from "react";
-import Output from "./components/Output";
-import Home from "./components/Home";
+import Output from "./pages/Output";
+import Home from "./pages/Home";
 import { createSelector } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { RootState } from "./store";
