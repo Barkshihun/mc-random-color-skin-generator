@@ -1,19 +1,19 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { undo } from "../store/isGeneratedSlice";
 import { RootState } from "../store";
-import { SkinViewer } from "skinview3d";
 import Swal from "sweetalert2";
 
 function Output() {
+  const [isLoading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const getRgbaObj = (state: RootState) => state.rgbaObj.value;
   const rgbaObjSelector = createSelector(getRgbaObj, (rgbaObj) => rgbaObj);
   const rgbaObj = useSelector(rgbaObjSelector) as RgbaObj<number>;
 
-  const skinPngCanvasRef = useRef<HTMLCanvasElement>(null);
-  const skinCanvasRef = useRef<HTMLCanvasElement>(null);
+  // const skinPngCanvasRef = useRef<HTMLCanvasElement>(null);
+  // const skinCanvasRef = useRef<HTMLCanvasElement>(null);
+  const tempCanvasRef = useRef<HTMLCanvasElement>(null);
   let skinPngCanvas: HTMLCanvasElement;
 
   const ROW_DATA = 256;
@@ -36,11 +36,11 @@ function Output() {
     TOTAL_ROW: 16,
   };
   useEffect(() => {
-    const skinCanvas = skinCanvasRef.current as HTMLCanvasElement;
+    const tempCanvas = tempCanvasRef.current as HTMLCanvasElement;
 
-    skinPngCanvas = skinPngCanvasRef.current as HTMLCanvasElement;
-    const skinPngCanvasCtx = skinPngCanvas.getContext("2d") as CanvasRenderingContext2D;
-    const imageData = skinPngCanvasCtx.createImageData(64, 64);
+    // skinPngCanvas = skinPngCanvasRef.current as HTMLCanvasElement;
+    const tempCanvasCtx = tempCanvas.getContext("2d") as CanvasRenderingContext2D;
+    const imageData = tempCanvasCtx.createImageData(64, 64);
     const fillPixel = (pixelData: number, isWear = false) => {
       imageData.data[pixelData] = Math.floor(Math.random() * (rgbaObj.red.max - rgbaObj.red.min + 1)) + rgbaObj.red.min;
       imageData.data[pixelData + 1] = Math.floor(Math.random() * (rgbaObj.green.max - rgbaObj.green.min + 1)) + rgbaObj.green.min;
@@ -131,46 +131,19 @@ function Output() {
     fillBody();
     fillLeft("leg");
     fillLeft("arm");
-    skinPngCanvasCtx.putImageData(imageData, 0, 0);
-    new SkinViewer({
-      canvas: skinCanvas,
-      width: 300,
-      height: 400,
-      skin: skinPngCanvas,
-    });
+    // tempCanvasCtx.putImageData(imageData, 0, 0);
+    //   new SkinViewer({
+    //     canvas: skinCanvas,
+    //     width: 300,
+    //     height: 400,
+    //     skin: skinPngCanvas,
+    //   });
   }, []);
-  const onDownload = () => {
-    Swal.fire({
-      title: "파일을 다운로드하시겠습니까?",
-      text: "파일명",
-      input: "text",
-      inputValue: "랜덤 색깔 스킨",
-      showCancelButton: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const dataURL = skinPngCanvas.toDataURL();
-        const aTag = document.createElement("a");
-        aTag.download = result.value ? `${result.value}.png` : "랜덤 색깔 스킨.png";
-        aTag.href = dataURL;
-        aTag.click();
-      }
-    });
-  };
+
   return (
     <>
-      <button
-        onClick={() => {
-          dispatch(undo());
-        }}
-        className="bg-red-300 mb-2"
-      >
-        돌아가기
-      </button>
-      <button onClick={onDownload} className="bg-blue-300 mb-2">
-        다운로드
-      </button>
-      <canvas className=" bg-slate-500 w-32 h-32" ref={skinPngCanvasRef} width={64} height={64}></canvas>
-      <canvas className=" bg-green-500" ref={skinCanvasRef} width={300} height={400}></canvas>
+      <canvas ref={tempCanvasRef}></canvas>
+      {isLoading ? <></> : <></>}
     </>
   );
 }
