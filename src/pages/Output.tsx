@@ -2,7 +2,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import Loading from "../components/Loading";
+import Rendering from "../components/Rendering";
 import RenderedSkin from "../components/RenderedSkin";
 
 function Output() {
@@ -133,7 +133,7 @@ function Output() {
   return (
     <>
       <canvas ref={tempCanvasRef}></canvas>
-      {isLoading ? <Loading /> : <RenderedSkin imageData={imageData.current as ImageData} />}
+      {isLoading ? <Rendering /> : <RenderedSkin imageData={imageData.current as ImageData} />}
     </>
   );
 }
