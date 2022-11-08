@@ -1,16 +1,28 @@
-import { createSelector } from "@reduxjs/toolkit";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 import { undo } from "../store/isGeneratedSlice";
-import { RootState } from "../store";
 import { SkinViewer } from "skinview3d";
 import Swal from "sweetalert2";
 
-function RenderedSkin() {
+function RenderedSkin({ imageData }: { imageData: ImageData }) {
   const dispatch = useDispatch();
   const skinPngCanvasRef = useRef<HTMLCanvasElement>(null);
   const skinCanvasRef = useRef<HTMLCanvasElement>(null);
-  const skinPngCanvas = skinPngCanvasRef.current as HTMLCanvasElement;
+  let skinPngCanvas: HTMLCanvasElement;
+  let skinCanvas: HTMLCanvasElement;
+  useEffect(() => {
+    skinPngCanvas = skinPngCanvasRef.current as HTMLCanvasElement;
+    skinCanvas = skinCanvasRef.current as HTMLCanvasElement;
+    const skinPngCanvasCtx = skinPngCanvas.getContext("2d") as CanvasRenderingContext2D;
+    skinPngCanvasCtx.putImageData(imageData, 0, 0);
+    new SkinViewer({
+      canvas: skinCanvas,
+      width: 300,
+      height: 400,
+      skin: skinPngCanvas,
+    });
+  }, []);
+
   const onDownload = () => {
     Swal.fire({
       title: "파일을 다운로드하시겠습니까?",
@@ -28,7 +40,6 @@ function RenderedSkin() {
       }
     });
   };
-
   return (
     <>
       <button

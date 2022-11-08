@@ -1,22 +1,17 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import Swal from "sweetalert2";
 import Loading from "../components/Loading";
 import RenderedSkin from "../components/RenderedSkin";
 
 function Output() {
   const [isLoading, setLoading] = useState(true);
-  const dispatch = useDispatch();
   const getRgbaObj = (state: RootState) => state.rgbaObj.value;
   const rgbaObjSelector = createSelector(getRgbaObj, (rgbaObj) => rgbaObj);
   const rgbaObj = useSelector(rgbaObjSelector) as RgbaObj<number>;
 
-  // const skinPngCanvasRef = useRef<HTMLCanvasElement>(null);
-  // const skinCanvasRef = useRef<HTMLCanvasElement>(null);
   const tempCanvasRef = useRef<HTMLCanvasElement>(null);
-  let skinPngCanvas: HTMLCanvasElement;
 
   const ROW_DATA = 256;
   const HEAD = {
@@ -37,16 +32,17 @@ function Output() {
     END_ROW: 32,
     TOTAL_ROW: 16,
   };
+  let imageData = useRef<ImageData>();
   const makeImageData = () => {
     const tempCanvas = tempCanvasRef.current as HTMLCanvasElement;
 
     const tempCanvasCtx = tempCanvas.getContext("2d") as CanvasRenderingContext2D;
-    const imageData = tempCanvasCtx.createImageData(64, 64);
+    const tempImageData = tempCanvasCtx.createImageData(64, 64);
     const fillPixel = (pixelData: number, isWear = false) => {
-      imageData.data[pixelData] = Math.floor(Math.random() * (rgbaObj.red.max - rgbaObj.red.min + 1)) + rgbaObj.red.min;
-      imageData.data[pixelData + 1] = Math.floor(Math.random() * (rgbaObj.green.max - rgbaObj.green.min + 1)) + rgbaObj.green.min;
-      imageData.data[pixelData + 2] = Math.floor(Math.random() * (rgbaObj.blue.max - rgbaObj.blue.min + 1)) + rgbaObj.blue.min;
-      imageData.data[pixelData + 3] = isWear ? Math.floor(Math.random() * (rgbaObj.alpha.max - rgbaObj.alpha.min + 1)) + rgbaObj.alpha.min : 255;
+      tempImageData.data[pixelData] = Math.floor(Math.random() * (rgbaObj.red.max - rgbaObj.red.min + 1)) + rgbaObj.red.min;
+      tempImageData.data[pixelData + 1] = Math.floor(Math.random() * (rgbaObj.green.max - rgbaObj.green.min + 1)) + rgbaObj.green.min;
+      tempImageData.data[pixelData + 2] = Math.floor(Math.random() * (rgbaObj.blue.max - rgbaObj.blue.min + 1)) + rgbaObj.blue.min;
+      tempImageData.data[pixelData + 3] = isWear ? Math.floor(Math.random() * (rgbaObj.alpha.max - rgbaObj.alpha.min + 1)) + rgbaObj.alpha.min : 255;
     };
     const fillHead = () => {
       for (let row = 0; row < HEAD.END_ROW; row++) {
@@ -127,23 +123,17 @@ function Output() {
     fillBody();
     fillLeft("leg");
     fillLeft("arm");
-    return imageData;
+    imageData.current = tempImageData;
+    setLoading(false);
   };
   useEffect(() => {
     makeImageData();
-    // tempCanvasCtx.putImageData(imageData, 0, 0);
-    //   new SkinViewer({
-    //     canvas: skinCanvas,
-    //     width: 300,
-    //     height: 400,
-    //     skin: skinPngCanvas,
-    //   });
   }, []);
 
   return (
     <>
       <canvas ref={tempCanvasRef}></canvas>
-      {isLoading ? <Loading /> : <RenderedSkin />}
+      {isLoading ? <Loading /> : <RenderedSkin imageData={imageData.current as ImageData} />}
     </>
   );
 }
