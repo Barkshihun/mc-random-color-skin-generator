@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import Swal from "sweetalert2";
+import Loading from "../components/Loading";
+import RenderedSkin from "../components/RenderedSkin";
 
 function Output() {
   const [isLoading, setLoading] = useState(true);
@@ -35,10 +37,9 @@ function Output() {
     END_ROW: 32,
     TOTAL_ROW: 16,
   };
-  useEffect(() => {
+  const makeImageData = () => {
     const tempCanvas = tempCanvasRef.current as HTMLCanvasElement;
 
-    // skinPngCanvas = skinPngCanvasRef.current as HTMLCanvasElement;
     const tempCanvasCtx = tempCanvas.getContext("2d") as CanvasRenderingContext2D;
     const imageData = tempCanvasCtx.createImageData(64, 64);
     const fillPixel = (pixelData: number, isWear = false) => {
@@ -46,11 +47,6 @@ function Output() {
       imageData.data[pixelData + 1] = Math.floor(Math.random() * (rgbaObj.green.max - rgbaObj.green.min + 1)) + rgbaObj.green.min;
       imageData.data[pixelData + 2] = Math.floor(Math.random() * (rgbaObj.blue.max - rgbaObj.blue.min + 1)) + rgbaObj.blue.min;
       imageData.data[pixelData + 3] = isWear ? Math.floor(Math.random() * (rgbaObj.alpha.max - rgbaObj.alpha.min + 1)) + rgbaObj.alpha.min : 255;
-
-      // imageData.data[pixelData] = 0;
-      // imageData.data[pixelData + 1] = 0;
-      // imageData.data[pixelData + 2] = 255;
-      // imageData.data[pixelData + 3] = isWear ? 50 : 255;
     };
     const fillHead = () => {
       for (let row = 0; row < HEAD.END_ROW; row++) {
@@ -131,6 +127,10 @@ function Output() {
     fillBody();
     fillLeft("leg");
     fillLeft("arm");
+    return imageData;
+  };
+  useEffect(() => {
+    makeImageData();
     // tempCanvasCtx.putImageData(imageData, 0, 0);
     //   new SkinViewer({
     //     canvas: skinCanvas,
@@ -143,7 +143,7 @@ function Output() {
   return (
     <>
       <canvas ref={tempCanvasRef}></canvas>
-      {isLoading ? <></> : <></>}
+      {isLoading ? <Loading /> : <RenderedSkin />}
     </>
   );
 }
