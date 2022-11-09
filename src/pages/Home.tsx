@@ -12,6 +12,7 @@ function Home() {
   const dispatch = useDispatch();
   const MIN_VALUE = 0;
   const MAX_VALUE = 255;
+  const MAX_ALPHA_VALUE = 100;
   const getRgbaObj = (state: RootState) => state.rgbaObj.value;
   const rgbaObjSelector = createSelector(getRgbaObj, (rgbaObj) => rgbaObj);
   const rgbaObj = useSelector(rgbaObjSelector);
@@ -26,7 +27,7 @@ function Home() {
       dispatch(rgbaObjChange({ color, limit, input: MIN_VALUE }));
       return;
     } else if (input > MAX_VALUE) {
-      dispatch(rgbaObjChange({ color, limit, input: MAX_VALUE }));
+      dispatch(rgbaObjChange({ color, limit, input: color === "alpha" ? MAX_ALPHA_VALUE : MAX_VALUE }));
       return;
     } else {
       dispatch(rgbaObjChange({ color, limit, input }));
@@ -85,8 +86,15 @@ function Home() {
   const onRandomClick = () => {
     let color: Rgba;
     for (color in rgbaObj) {
-      const random1 = Math.floor(Math.random() * 254);
-      const random2 = Math.floor(Math.random() * 254);
+      let random1;
+      let random2;
+      if (color === "alpha") {
+        random1 = Math.floor(Math.random() * (MAX_ALPHA_VALUE - 1));
+        random2 = Math.floor(Math.random() * (MAX_ALPHA_VALUE - 1));
+      } else {
+        random1 = Math.floor(Math.random() * (MAX_VALUE - 1));
+        random2 = Math.floor(Math.random() * (MAX_VALUE - 1));
+      }
       if (random1 > random2) {
         dispatch(rgbaObjChange({ color, limit: "min", input: random2 }));
         dispatch(rgbaObjChange({ color, limit: "max", input: random1 }));

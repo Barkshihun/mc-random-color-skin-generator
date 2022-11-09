@@ -15,7 +15,7 @@ const initialState = {
     },
     alpha: {
       min: 0,
-      max: 255,
+      max: 100,
     },
   } as RgbaObj<number | "">,
 };
