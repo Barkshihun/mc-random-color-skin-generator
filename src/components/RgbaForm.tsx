@@ -1,10 +1,10 @@
 function RgbaForm({
-  rgbaList,
+  rgbaInfo,
   onInputChange,
   rgbaObj,
 }: {
-  rgbaList: {
-    displayName: string;
+  rgbaInfo: {
+    displayName: "R" | "G" | "B" | "A";
     color: Rgba;
   };
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -12,12 +12,12 @@ function RgbaForm({
 }) {
   return (
     <div className="w-full flex justify-between">
-      <span>{rgbaList.displayName}</span>
+      <span>{rgbaInfo.displayName}</span>
       <input
-        data-color={rgbaList.color}
+        data-color={rgbaInfo.color}
         data-limit={"min"}
-        id={`${rgbaList.color}Min`}
-        value={`${rgbaObj[rgbaList.color]["min"]}`}
+        id={`${rgbaInfo.color}Min`}
+        value={`${rgbaObj[rgbaInfo.color]["min"]}`}
         placeholder="최소값"
         type={"number"}
         min={0}
@@ -26,10 +26,10 @@ function RgbaForm({
         className=" border w-3/4"
       />
       <input
-        data-color={rgbaList.color}
+        data-color={rgbaInfo.color}
         data-limit={"max"}
-        id={`${rgbaList.color}Max`}
-        value={`${rgbaObj[rgbaList.color]["max"]}`}
+        id={`${rgbaInfo.color}Max`}
+        value={`${rgbaObj[rgbaInfo.color]["max"]}`}
         placeholder="최댓값"
         type={"number"}
         min={0}

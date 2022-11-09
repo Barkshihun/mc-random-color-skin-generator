@@ -102,8 +102,8 @@ function Home() {
         <h1>랜덤 색깔 스킨 생성기</h1>
       </header>
       <section>
-        {rgbaList.map((rgbaList, i) => (
-          <RgbaForm key={i} rgbaList={rgbaList} onInputChange={onInputChange} rgbaObj={rgbaObj} />
+        {rgbaList.map((rgbaInfo, i) => (
+          <RgbaForm key={i} rgbaInfo={rgbaInfo} onInputChange={onInputChange} rgbaObj={rgbaObj} />
         ))}
         <div>
           <button onClick={onRandomClick} className="bg-blue-300">
