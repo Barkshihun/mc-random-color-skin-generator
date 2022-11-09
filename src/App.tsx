@@ -9,7 +9,7 @@ import "./App.css";
 function App() {
   const getIsGenerated = (state: RootState) => state.isGenerated.value;
   const isGeneratedSelector = createSelector(getIsGenerated, (isGenerated) => isGenerated);
-  return <main className="">{!useSelector(isGeneratedSelector) ? <Home /> : <Output />}</main>;
+  return <main className="flex justify-center mt-20">{!useSelector(isGeneratedSelector) ? <Home /> : <Output />}</main>;
 }
 
 export default App;

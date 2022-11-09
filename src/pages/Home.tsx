@@ -96,8 +96,8 @@ function Home() {
     }
   };
   return (
-    <>
-      <header className=" font-title">
+    <section className="flex-col justify-center w-[640px]">
+      <header className=" font-title text-5xl">
         <h1>랜덤 색깔 스킨 생성기</h1>
       </header>
       <section>
@@ -141,7 +141,7 @@ function Home() {
           </button>
         </div>
       </section>
-    </>
+    </section>
   );
 }
 export default Home;
