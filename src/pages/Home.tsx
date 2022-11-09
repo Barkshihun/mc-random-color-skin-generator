@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { rgbaObjChange } from "../store/rgbaObjSlice";
 import { RootState } from "../store";
+import RgbaForm from "../components/RgbaForm";
 
 function Home() {
   const dispatch = useDispatch();
@@ -101,37 +102,9 @@ function Home() {
         <h1>랜덤 색깔 스킨 생성기</h1>
       </header>
       <section>
-        {rgbaList.map((rgbaList, i) => {
-          return (
-            <div className="w-full flex justify-between" key={i}>
-              <span>{rgbaList.displayName}</span>
-              <input
-                data-color={rgbaList.color}
-                data-limit={"min"}
-                id={`${rgbaList.color}Min`}
-                value={`${rgbaObj[rgbaList.color]["min"]}`}
-                placeholder="최소값"
-                type={"number"}
-                min={0}
-                max={255}
-                onChange={onInputChange}
-                className=" border w-3/4"
-              />
-              <input
-                data-color={rgbaList.color}
-                data-limit={"max"}
-                id={`${rgbaList.color}Max`}
-                value={`${rgbaObj[rgbaList.color]["max"]}`}
-                placeholder="최댓값"
-                type={"number"}
-                min={0}
-                max={255}
-                onChange={onInputChange}
-                className=" border w-3/4"
-              />
-            </div>
-          );
-        })}
+        {rgbaList.map((rgbaList, i) => (
+          <RgbaForm key={i} rgbaList={rgbaList} onInputChange={onInputChange} rgbaObj={rgbaObj} />
+        ))}
         <div>
           <button onClick={onRandomClick} className="bg-blue-300">
             범위 랜덤 설정
