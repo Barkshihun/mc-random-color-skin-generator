@@ -17,8 +17,8 @@ function RenderedSkin({ imageData }: { imageData: ImageData }) {
     skinPngCanvasCtx.putImageData(imageData, 0, 0);
     new SkinViewer({
       canvas: skinCanvas,
-      width: 300,
-      height: 400,
+      width: 200,
+      height: 200,
       skin: skinPngCanvas,
     });
   }, []);
@@ -41,7 +41,11 @@ function RenderedSkin({ imageData }: { imageData: ImageData }) {
     });
   };
   return (
-    <>
+    <section className="mt-14">
+      <div className="flex flex-col h-[70%] justify-evenly items-center">
+        <canvas className="shadow-2xl" ref={skinCanvasRef}></canvas>
+        <canvas className="shadow-2xl w-40 h-40" ref={skinPngCanvasRef} width={64} height={64}></canvas>
+      </div>
       <button
         onClick={() => {
           dispatch(undo());
@@ -53,9 +57,7 @@ function RenderedSkin({ imageData }: { imageData: ImageData }) {
       <button onClick={onDownload} className="bg-blue-300 mb-2">
         다운로드
       </button>
-      <canvas className=" bg-slate-500 w-32 h-32" ref={skinPngCanvasRef} width={64} height={64}></canvas>
-      <canvas className=" bg-green-500" ref={skinCanvasRef} width={300} height={400}></canvas>
-    </>
+    </section>
   );
 }
 export default RenderedSkin;

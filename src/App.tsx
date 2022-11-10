@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Output from "./pages/Output";
 import Home from "./pages/Home";
 import { createSelector } from "@reduxjs/toolkit";

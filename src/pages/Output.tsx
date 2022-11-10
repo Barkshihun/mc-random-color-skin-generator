@@ -126,11 +126,6 @@ function Output() {
     makeImageData();
   }, []);
 
-  return (
-    <>
-      {/* <Rendering /> */}
-      {isLoading ? <Rendering /> : <RenderedSkin imageData={imageData.current as ImageData} />}
-    </>
-  );
+  return <>{isLoading ? <Rendering /> : <RenderedSkin imageData={imageData.current as ImageData} />}</>;
 }
 export default Output;
