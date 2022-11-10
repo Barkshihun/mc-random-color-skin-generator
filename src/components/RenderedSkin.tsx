@@ -1,10 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { undo } from "../store/isGeneratedSlice";
 import { SkinViewer } from "skinview3d";
 import Swal from "sweetalert2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShirt } from "@fortawesome/free-solid-svg-icons";
 
-function RenderedSkin({ imageData }: { imageData: ImageData }) {
+function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData; noOverlayImageData: ImageData }) {
+  const [isOverlay, setOverlay] = useState(true);
   const dispatch = useDispatch();
   const skinPngCanvasRef = useRef<HTMLCanvasElement>(null);
   const skinCanvasRef = useRef<HTMLCanvasElement>(null);
@@ -12,17 +15,23 @@ function RenderedSkin({ imageData }: { imageData: ImageData }) {
   let skinCanvas: HTMLCanvasElement;
   useEffect(() => {
     skinPngCanvas = skinPngCanvasRef.current as HTMLCanvasElement;
-    skinCanvas = skinCanvasRef.current as HTMLCanvasElement;
     const skinPngCanvasCtx = skinPngCanvas.getContext("2d") as CanvasRenderingContext2D;
-    skinPngCanvasCtx.putImageData(imageData, 0, 0);
+    if (isOverlay) {
+      skinPngCanvasCtx.putImageData(imageData, 0, 0);
+    } else {
+      skinPngCanvasCtx.putImageData(noOverlayImageData, 0, 0);
+    }
+    skinCanvas = skinCanvasRef.current as HTMLCanvasElement;
     new SkinViewer({
       canvas: skinCanvas,
+      skin: skinPngCanvas,
       width: 200,
       height: 200,
-      skin: skinPngCanvas,
     });
-  }, []);
-
+  }, [isOverlay]);
+  const onLayoutBtnClick = () => {
+    setOverlay((prevState) => !prevState);
+  };
   const onDownload = () => {
     Swal.fire({
       title: "파일을 다운로드하시겠습니까?",
@@ -44,6 +53,7 @@ function RenderedSkin({ imageData }: { imageData: ImageData }) {
     <section className="mt-14">
       <div className="flex flex-col h-[70%] justify-evenly items-center">
         <canvas className="shadow-2xl" ref={skinCanvasRef}></canvas>
+        <FontAwesomeIcon icon={faShirt} onClick={onLayoutBtnClick} style={{ color: isOverlay ? "#ff5c5c" : "#707070" }} />
         <canvas className="shadow-2xl w-40 h-40" ref={skinPngCanvasRef} width={64} height={64}></canvas>
       </div>
       <button

@@ -31,14 +31,25 @@ function Output() {
     TOTAL_ROW: 16,
   };
   let imageData = useRef<ImageData>();
+  let noOverlayImageData = useRef<ImageData>();
   const makeImageData = () => {
     const tempCanvasCtx = document.createElement("canvas").getContext("2d") as CanvasRenderingContext2D;
     const tempImageData = tempCanvasCtx.createImageData(64, 64);
+    const tempNoOverlayImageData = tempCanvasCtx.createImageData(64, 64);
     const fillPixel = (pixelData: number, isWear = false) => {
-      tempImageData.data[pixelData] = Math.floor(Math.random() * (rgbaObj.red.max - rgbaObj.red.min + 1)) + rgbaObj.red.min;
-      tempImageData.data[pixelData + 1] = Math.floor(Math.random() * (rgbaObj.green.max - rgbaObj.green.min + 1)) + rgbaObj.green.min;
-      tempImageData.data[pixelData + 2] = Math.floor(Math.random() * (rgbaObj.blue.max - rgbaObj.blue.min + 1)) + rgbaObj.blue.min;
-      tempImageData.data[pixelData + 3] = isWear ? Math.floor(Math.random() * (rgbaObj.alpha.max - rgbaObj.alpha.min + 1)) + rgbaObj.alpha.min : 255;
+      const randomRed = Math.floor(Math.random() * (rgbaObj.red.max - rgbaObj.red.min + 1)) + rgbaObj.red.min;
+      const randomGreen = Math.floor(Math.random() * (rgbaObj.green.max - rgbaObj.green.min + 1)) + rgbaObj.green.min;
+      const randomBlue = Math.floor(Math.random() * (rgbaObj.blue.max - rgbaObj.blue.min + 1)) + rgbaObj.blue.min;
+      const randomAlpha = Math.floor(Math.random() * (rgbaObj.alpha.max - rgbaObj.alpha.min + 1)) + rgbaObj.alpha.min;
+      tempImageData.data[pixelData] = randomRed;
+      tempImageData.data[pixelData + 1] = randomGreen;
+      tempImageData.data[pixelData + 2] = randomBlue;
+      tempImageData.data[pixelData + 3] = isWear ? randomAlpha : 255;
+
+      tempNoOverlayImageData.data[pixelData] = randomRed;
+      tempNoOverlayImageData.data[pixelData + 1] = randomGreen;
+      tempNoOverlayImageData.data[pixelData + 2] = randomBlue;
+      tempNoOverlayImageData.data[pixelData + 3] = isWear ? 0 : 255;
     };
     const fillHead = () => {
       for (let row = 0; row < HEAD.END_ROW; row++) {
@@ -120,12 +131,13 @@ function Output() {
     fillLeft("leg");
     fillLeft("arm");
     imageData.current = tempImageData;
+    noOverlayImageData.current = tempNoOverlayImageData;
     setLoading(false);
   };
   useEffect(() => {
     makeImageData();
   }, []);
 
-  return <>{isLoading ? <Rendering /> : <RenderedSkin imageData={imageData.current as ImageData} />}</>;
+  return <>{isLoading ? <Rendering /> : <RenderedSkin imageData={imageData.current as ImageData} noOverlayImageData={noOverlayImageData.current as ImageData} />}</>;
 }
 export default Output;
