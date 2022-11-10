@@ -6,7 +6,7 @@ import Rendering from "../components/Rendering";
 import RenderedSkin from "../components/RenderedSkin";
 
 function Output() {
-  const [isLoading, setLoading] = useState(true);
+  const [isRendering, setRendering] = useState(true);
   const getRgbaObj = (state: RootState) => state.rgbaObj.value;
   const rgbaObjSelector = createSelector(getRgbaObj, (rgbaObj) => rgbaObj);
   const rgbaObj = useSelector(rgbaObjSelector) as RgbaObj<number>;
@@ -132,12 +132,12 @@ function Output() {
     fillLeft("arm");
     imageData.current = tempImageData;
     noOverlayImageData.current = tempNoOverlayImageData;
-    setLoading(false);
+    setRendering(false);
   };
   useEffect(() => {
     makeImageData();
   }, []);
 
-  return <>{isLoading ? <Rendering /> : <RenderedSkin imageData={imageData.current as ImageData} noOverlayImageData={noOverlayImageData.current as ImageData} />}</>;
+  return <>{isRendering ? <Rendering /> : <RenderedSkin imageData={imageData.current as ImageData} noOverlayImageData={noOverlayImageData.current as ImageData} />}</>;
 }
 export default Output;
