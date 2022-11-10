@@ -23,7 +23,7 @@ function RgbaForm({
         placeholder="최소값"
         type={"number"}
         min={0}
-        max={rgbaInfo.color === "alpha" ? 100 : 255}
+        max={255}
         onChange={onInputChange}
       />
       <MinusIcon className="w-10 justify-self-center" />
@@ -36,7 +36,7 @@ function RgbaForm({
         placeholder="최댓값"
         type={"number"}
         min={0}
-        max={rgbaInfo.color === "alpha" ? 100 : 255}
+        max={255}
         onChange={onInputChange}
       />
     </div>
