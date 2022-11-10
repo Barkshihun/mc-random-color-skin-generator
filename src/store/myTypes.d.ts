@@ -1,6 +1,5 @@
 type Rgba = "red" | "green" | "blue" | "alpha";
 type RgbaList = Array<{
-  displayName: "R" | "G" | "B" | "A";
   color: Rgba;
 }>;
 interface RgbaObj<T extends number | ""> {

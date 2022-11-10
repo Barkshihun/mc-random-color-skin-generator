@@ -33,12 +33,7 @@ function Home() {
       dispatch(rgbaObjChange({ color, limit, input }));
     }
   };
-  const rgbaList: RgbaList = [
-    { displayName: "R", color: "red" },
-    { displayName: "G", color: "green" },
-    { displayName: "B", color: "blue" },
-    { displayName: "A", color: "alpha" },
-  ];
+  const rgbaList: RgbaList = [{ color: "red" }, { color: "green" }, { color: "blue" }, { color: "alpha" }];
   const makeErrMsgArray = () => {
     const rgbaObjKeyList = ["red", "green", "blue", "alpha"] as Rgba[];
     let errMsgArray: JSX.Element[] = [];
@@ -109,19 +104,25 @@ function Home() {
       <header className=" font-title text-5xl">
         <h1>랜덤 색깔 스킨 생성기</h1>
       </header>
-      <section>
+      <div className="flex flex-col">
+        <div className="grid grid-cols-colorForm">
+          <span>색</span>
+          <span>최소값</span>
+          <span></span>
+          <span>최댓값</span>
+        </div>
         {rgbaList.map((rgbaInfo, i) => (
           <RgbaForm key={i} rgbaInfo={rgbaInfo} onInputChange={onInputChange} rgbaObj={rgbaObj} />
         ))}
-        <div>
-          <button onClick={onRandomClick} className="bg-blue-300">
-            범위 랜덤 설정
-          </button>
-          <button onClick={onGenerate} className="bg-teal-300">
-            생성하기
-          </button>
-        </div>
-      </section>
+      </div>
+      <div>
+        <button onClick={onRandomClick} className="bg-blue-300">
+          범위 랜덤 설정
+        </button>
+        <button onClick={onGenerate} className="bg-teal-300">
+          생성하기
+        </button>
+      </div>
     </section>
   );
 }

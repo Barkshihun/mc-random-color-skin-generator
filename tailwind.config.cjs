@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      gridTemplateColumns: {
+        colorForm: "1fr 2fr 1fr 2fr",
+      },
+    },
     fontFamily: {
       title: ["Gugi"],
     },
