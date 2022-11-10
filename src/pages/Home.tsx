@@ -100,11 +100,11 @@ function Home() {
     }
   };
   return (
-    <section className="flex-col justify-center w-[640px]">
-      <header className=" font-title text-5xl">
+    <section>
+      <header className=" font-title text-5xl text-center break-keep">
         <h1>랜덤 색깔 스킨 생성기</h1>
       </header>
-      <div className="flex flex-col">
+      <div className="flex flex-col border-2 rounded-lg">
         <div className="grid grid-cols-colorForm">
           <span>색</span>
           <span>최소값</span>
