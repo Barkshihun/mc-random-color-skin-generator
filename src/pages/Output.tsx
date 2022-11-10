@@ -11,8 +11,6 @@ function Output() {
   const rgbaObjSelector = createSelector(getRgbaObj, (rgbaObj) => rgbaObj);
   const rgbaObj = useSelector(rgbaObjSelector) as RgbaObj<number>;
 
-  const tempCanvasRef = useRef<HTMLCanvasElement>(null);
-
   const ROW_DATA = 256;
   const HEAD = {
     START_COL_DATA: 0,
@@ -34,9 +32,7 @@ function Output() {
   };
   let imageData = useRef<ImageData>();
   const makeImageData = () => {
-    const tempCanvas = tempCanvasRef.current as HTMLCanvasElement;
-
-    const tempCanvasCtx = tempCanvas.getContext("2d") as CanvasRenderingContext2D;
+    const tempCanvasCtx = document.createElement("canvas").getContext("2d") as CanvasRenderingContext2D;
     const tempImageData = tempCanvasCtx.createImageData(64, 64);
     const fillPixel = (pixelData: number, isWear = false) => {
       tempImageData.data[pixelData] = Math.floor(Math.random() * (rgbaObj.red.max - rgbaObj.red.min + 1)) + rgbaObj.red.min;
@@ -132,7 +128,7 @@ function Output() {
 
   return (
     <>
-      <canvas ref={tempCanvasRef}></canvas>
+      {/* <Rendering /> */}
       {isLoading ? <Rendering /> : <RenderedSkin imageData={imageData.current as ImageData} />}
     </>
   );
