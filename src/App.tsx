@@ -9,11 +9,7 @@ import "./App.css";
 function App() {
   const getIsGenerated = (state: RootState) => state.isGenerated.value;
   const isGeneratedSelector = createSelector(getIsGenerated, (isGenerated) => isGenerated);
-  return (
-    <main className="flex justify-center h-screen ">
-      <div className="mt-20 flex-col justify-center w-[640px] px-8">{!useSelector(isGeneratedSelector) ? <Home /> : <Output />}</div>
-    </main>
-  );
+  return <main className="flex justify-center h-screen ">{!useSelector(isGeneratedSelector) ? <Home /> : <Output />}</main>;
 }
 
 export default App;

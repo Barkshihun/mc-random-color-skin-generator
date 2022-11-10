@@ -100,7 +100,7 @@ function Home() {
     }
   };
   return (
-    <section>
+    <section className="mt-20 flex-col justify-center w-[640px] px-8">
       <header className=" font-title text-5xl text-center break-keep">
         <h1>랜덤 색깔 스킨 생성기</h1>
       </header>
