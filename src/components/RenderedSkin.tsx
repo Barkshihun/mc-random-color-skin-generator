@@ -5,6 +5,7 @@ import { SkinViewer } from "skinview3d";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShirt } from "@fortawesome/free-solid-svg-icons";
+import withReactContent from "sweetalert2-react-content";
 
 function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData; noOverlayImageData: ImageData }) {
   const [isOverlay, setOverlay] = useState(true);
@@ -33,17 +34,32 @@ function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData;
     setOverlay((prevState) => !prevState);
   };
   const onDownload = () => {
-    Swal.fire({
+    let inputValue = "랜덤 색깔 스킨";
+    const MySwal = withReactContent(Swal);
+    const html = (
+      <>
+        <span id="swal">파일명: 랜덤 색깔 스킨.png</span>
+        <br />
+        <input
+          type="text"
+          onChange={({ target: { value } }) => {
+            const span = document.getElementById("swal") as HTMLElement;
+            inputValue = value === "" ? "랜덤 색깔 스킨" : value;
+            span.innerText = `파일명: ${inputValue}.png`;
+          }}
+        />
+      </>
+    );
+    MySwal.fire({
       title: "파일을 다운로드하시겠습니까?",
-      text: "파일명",
-      input: "text",
+      html,
       inputValue: "랜덤 색깔 스킨",
       showCancelButton: true,
     }).then((result) => {
       if (result.isConfirmed) {
         const dataURL = skinPngCanvas.toDataURL();
         const aTag = document.createElement("a");
-        aTag.download = result.value ? `${result.value}.png` : "랜덤 색깔 스킨.png";
+        aTag.download = `${inputValue}.png`;
         aTag.href = dataURL;
         aTag.click();
       }
