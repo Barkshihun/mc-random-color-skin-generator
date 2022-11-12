@@ -7,6 +7,8 @@ import withReactContent from "sweetalert2-react-content";
 import { rgbaObjChange } from "../store/rgbaObjSlice";
 import { RootState } from "../store";
 import RgbaForm from "../components/RgbaForm";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 
 function Home() {
   const dispatch = useDispatch();
@@ -96,8 +98,8 @@ function Home() {
       <header className=" font-title text-5xl text-center break-keep">
         <h1>랜덤 색깔 스킨 생성기</h1>
       </header>
-      <div className="flex flex-col border-2 rounded-lg">
-        <div className="grid grid-cols-colorForm">
+      <div className="border-2 rounded-lg mt-4 shadow-xl px-[3%] py-[1%]">
+        <div className="grid grid-cols-colorForm bg-slate-100 py-1 pl-2">
           <span>색</span>
           <span>최소값</span>
           <span></span>
@@ -107,11 +109,11 @@ function Home() {
           <RgbaForm key={i} rgbaInfo={rgbaInfo} onInputChange={onInputChange} rgbaObj={rgbaObj} />
         ))}
       </div>
-      <div>
-        <button onClick={onRandomClick} className="bg-blue-300">
-          범위 랜덤 설정
+      <div className="flex justify-evenly mt-6 h-7">
+        <button onClick={onRandomClick} className="bg-blue-300 w-1/5 rounded-full">
+          <FontAwesomeIcon icon={faShuffle} />
         </button>
-        <button onClick={onGenerate} className="bg-teal-300">
+        <button onClick={onGenerate} className="bg-teal-300 w-3/5 rounded-full">
           생성하기
         </button>
       </div>

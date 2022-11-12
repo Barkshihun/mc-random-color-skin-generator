@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       gridTemplateColumns: {
-        colorForm: "1fr 2fr 1fr 2fr",
+        colorForm: "2fr 5fr 2fr 5fr",
       },
     },
     fontFamily: {

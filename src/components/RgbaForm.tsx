@@ -11,16 +11,16 @@ function RgbaForm({
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   rgbaObj: RgbaObj<number | "">;
 }) {
+  const cssColor = rgbaInfo.color === "alpha" ? "gray" : rgbaInfo.color;
   return (
-    <div className="grid grid-cols-colorForm">
-      <span>{rgbaInfo.color.replace(rgbaInfo.color[0], rgbaInfo.color[0].toUpperCase())}</span>
+    <div className="grid grid-cols-colorForm items-center pl-2">
+      <span style={{ color: cssColor }}>{rgbaInfo.color.replace(rgbaInfo.color[0], rgbaInfo.color[0].toUpperCase())}</span>
       <input
-        className=" border w-full"
+        className="border w-full h-full pl-2"
         data-color={rgbaInfo.color}
         data-limit={"min"}
         id={`${rgbaInfo.color}Min`}
         value={`${rgbaObj[rgbaInfo.color]["min"]}`}
-        placeholder="최소값"
         type={"number"}
         min={0}
         max={255}
@@ -28,12 +28,11 @@ function RgbaForm({
       />
       <MinusIcon className="w-10 justify-self-center" />
       <input
-        className=" border w-full"
+        className="border w-full h-full pl-2"
         data-color={rgbaInfo.color}
         data-limit={"max"}
         id={`${rgbaInfo.color}Max`}
         value={`${rgbaObj[rgbaInfo.color]["max"]}`}
-        placeholder="최댓값"
         type={"number"}
         min={0}
         max={255}
