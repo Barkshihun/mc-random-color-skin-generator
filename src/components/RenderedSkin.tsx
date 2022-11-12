@@ -52,7 +52,7 @@ function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData;
   return (
     <section className="mt-14">
       <div className="flex flex-col h-[70%] justify-evenly items-center">
-        <canvas className="shadow-2xl" ref={skinCanvasRef}></canvas>
+        <canvas className="shadow-2xl" ref={skinCanvasRef} width={200} height={200}></canvas>
         <FontAwesomeIcon icon={faShirt} onClick={onLayoutBtnClick} style={{ color: isOverlay ? "#ff5c5c" : "#707070" }} />
         <canvas className="shadow-2xl w-40 h-40" ref={skinPngCanvasRef} width={64} height={64}></canvas>
       </div>
