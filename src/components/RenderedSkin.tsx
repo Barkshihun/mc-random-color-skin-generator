@@ -40,12 +40,14 @@ function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData;
       <div className="h-full flex flex-col items-center">
         <div className="flex flex-col h-[70%] max-h-[500px] justify-evenly items-center">
           <canvas className="shadow-2xl bg-white rounded-md" ref={skinCanvasRef} width={200} height={200}></canvas>
-          <FontAwesomeIcon
-            icon={faShirt}
-            onClick={onLayoutBtnClick}
-            style={{ color: isOverlay ? "#ff5c5c" : "#707070" }}
-            className="w-[30px] h-[30px] drop-shadow cursor-pointer transition hover:scale-105 hover:brightness-150"
-          />
+          <button className="rounded-full w-[40px] h-[40px] flex items-center justify-center">
+            <FontAwesomeIcon
+              icon={faShirt}
+              onClick={onLayoutBtnClick}
+              style={{ color: isOverlay ? "#ff5c5c" : "#707070" }}
+              className="h-[30px] w-[30px] drop-shadow transition hover:scale-105 hover:brightness-150"
+            />
+          </button>
           <canvas className="shadow-2xl w-40 h-40 bg-white rounded-md p-3" ref={skinPngCanvasRef} width={64} height={64}></canvas>
         </div>
         <div className="flex justify-evenly w-[200px] mt-4">
