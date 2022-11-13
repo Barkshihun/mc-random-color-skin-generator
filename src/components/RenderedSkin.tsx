@@ -51,7 +51,7 @@ function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData;
               className="h-[30px] w-[30px] drop-shadow transition hover:scale-105 hover:brightness-150"
             />
           </button>
-          <CSSTransition apper nodeRef={skinPngCanvasRef} in={isOverlay} classNames="canvas-load" timeout={500}>
+          <CSSTransition nodeRef={skinPngCanvasRef} in={isOverlay} classNames="canvas-load" timeout={500}>
             <canvas ref={skinPngCanvasRef} className=" shadow-2xl w-40 h-40 bg-white rounded-md p-3 animate-init-canvas-load" width={64} height={64}></canvas>
           </CSSTransition>
         </div>

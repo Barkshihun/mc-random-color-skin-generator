@@ -135,9 +135,8 @@ function Output() {
     setRendering(false);
   };
   useEffect(() => {
-    makeImageData();
+    new Promise(makeImageData);
   }, []);
-
   return <>{isRendering ? <Rendering /> : <RenderedSkin imageData={imageData.current as ImageData} noOverlayImageData={noOverlayImageData.current as ImageData} />}</>;
 }
 export default Output;
