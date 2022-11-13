@@ -41,7 +41,7 @@ function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData;
       <div className="h-full flex flex-col items-center">
         <div className="flex flex-col h-[70%] max-h-[500px] justify-evenly items-center">
           <CSSTransition nodeRef={skinCanvasRef} in={isOverlay} classNames="canvas-load" timeout={500}>
-            <canvas ref={skinCanvasRef} className="shadow-2xl bg-white rounded-md" width={200} height={200}></canvas>
+            <canvas ref={skinCanvasRef} className="shadow-2xl bg-white rounded-md animate-init-canvas-load" width={200} height={200}></canvas>
           </CSSTransition>
           <button className="rounded-full w-[40px] h-[40px] flex items-center justify-center">
             <FontAwesomeIcon
@@ -52,7 +52,7 @@ function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData;
             />
           </button>
           <CSSTransition apper nodeRef={skinPngCanvasRef} in={isOverlay} classNames="canvas-load" timeout={500}>
-            <canvas ref={skinPngCanvasRef} className=" shadow-2xl w-40 h-40 bg-white rounded-md p-3" width={64} height={64}></canvas>
+            <canvas ref={skinPngCanvasRef} className=" shadow-2xl w-40 h-40 bg-white rounded-md p-3 animate-init-canvas-load" width={64} height={64}></canvas>
           </CSSTransition>
         </div>
         <div className="flex justify-evenly w-[200px] mt-4">
