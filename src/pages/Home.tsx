@@ -8,10 +8,10 @@ import { RootState } from "../store";
 import RgbaForm from "../components/RgbaForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShuffle } from "@fortawesome/free-solid-svg-icons";
-import { Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { useState } from "react";
 
 function Home() {
+  const [textLoad, setTextLoad] = useState(true);
   const dispatch = useDispatch();
   const MIN_VALUE = 0;
   const MAX_VALUE = 255;
@@ -93,6 +93,7 @@ function Home() {
         dispatch(rgbaObjChange({ color, limit: "max", input: random2 }));
       }
     }
+    setTextLoad((loadAni) => !loadAni);
   };
   return (
     <section className="mt-20 flex-col justify-center w-[640px] px-8">
@@ -106,7 +107,7 @@ function Home() {
           <span>최댓값</span>
         </div>
         {rgbaList.map((rgbaInfo, i) => (
-          <RgbaForm key={i} rgbaInfo={rgbaInfo} onInputChange={onInputChange} rgbaObj={rgbaObj} />
+          <RgbaForm key={i} rgbaInfo={rgbaInfo} onInputChange={onInputChange} rgbaObj={rgbaObj} textLoad={textLoad} />
         ))}
       </div>
       <div className="flex justify-evenly mt-6 h-7">

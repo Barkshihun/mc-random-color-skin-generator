@@ -23,3 +23,19 @@
     @apply transition hover:scale-105 hover:bg-teal-500 hover:text-white;
   }
 }
+.text-load-enter,
+.text-load-exit,
+.canvas-load-enter,
+.canvas-load-exit {
+  filter: brightness(0.8);
+}
+.text-load-enter-active,
+.text-load-exit-active {
+  filter: brightness(1);
+  transition: all 300ms ease-in-out;
+}
+.canvas-load-enter-active,
+.canvas-load-exit-active {
+  filter: brightness(1);
+  transition: all 500ms ease-in-out;
+}
