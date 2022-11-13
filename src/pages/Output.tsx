@@ -36,7 +36,7 @@ function Output() {
     const tempCanvasCtx = document.createElement("canvas").getContext("2d") as CanvasRenderingContext2D;
     const tempImageData = tempCanvasCtx.createImageData(64, 64);
     const tempNoOverlayImageData = tempCanvasCtx.createImageData(64, 64);
-    const fillPixel = (pixelData: number, isWear = false) => {
+    const fillPixel = (pixelData: number, isOverlayPixel = false) => {
       const randomRed = Math.floor(Math.random() * (rgbaObj.red.max - rgbaObj.red.min + 1)) + rgbaObj.red.min;
       const randomGreen = Math.floor(Math.random() * (rgbaObj.green.max - rgbaObj.green.min + 1)) + rgbaObj.green.min;
       const randomBlue = Math.floor(Math.random() * (rgbaObj.blue.max - rgbaObj.blue.min + 1)) + rgbaObj.blue.min;
@@ -44,12 +44,12 @@ function Output() {
       tempImageData.data[pixelData] = randomRed;
       tempImageData.data[pixelData + 1] = randomGreen;
       tempImageData.data[pixelData + 2] = randomBlue;
-      tempImageData.data[pixelData + 3] = isWear ? randomAlpha : 255;
+      tempImageData.data[pixelData + 3] = isOverlayPixel ? randomAlpha : 255;
 
       tempNoOverlayImageData.data[pixelData] = randomRed;
       tempNoOverlayImageData.data[pixelData + 1] = randomGreen;
       tempNoOverlayImageData.data[pixelData + 2] = randomBlue;
-      tempNoOverlayImageData.data[pixelData + 3] = isWear ? 0 : 255;
+      tempNoOverlayImageData.data[pixelData + 3] = isOverlayPixel ? 0 : 255;
     };
     const fillHead = () => {
       for (let row = 0; row < HEAD.END_ROW; row++) {
@@ -62,7 +62,7 @@ function Output() {
             break;
           }
           fillPixel(col + row * ROW_DATA);
-          fillPixel(col + HEAD.ONE_BOX_COL_DATA * 4 + row * ROW_DATA, true); // Wear
+          fillPixel(col + HEAD.ONE_BOX_COL_DATA * 4 + row * ROW_DATA, true); // Overlay
         }
       }
     };
@@ -81,7 +81,7 @@ function Output() {
             break;
           }
           fillPixel(col + row * ROW_DATA);
-          fillPixel(col + (row + LIMB.TOTAL_ROW) * ROW_DATA, true); // Wear
+          fillPixel(col + (row + LIMB.TOTAL_ROW) * ROW_DATA, true); // Overlay
         }
       }
     };
@@ -100,11 +100,11 @@ function Output() {
             break;
           }
           if (direction === "leg") {
-            fillPixel(col + row * ROW_DATA, true); // Wear
             fillPixel(col + row * ROW_DATA + LIMB.WIDTH_DATA);
+            fillPixel(col + row * ROW_DATA, true); // Overlay
           } else {
             fillPixel(col + row * ROW_DATA);
-            fillPixel(col + row * ROW_DATA + LIMB.WIDTH_DATA, true); // Wear
+            fillPixel(col + row * ROW_DATA + LIMB.WIDTH_DATA, true); // Overlay
           }
         }
       }
@@ -120,7 +120,7 @@ function Output() {
             break;
           }
           fillPixel(col + row * ROW_DATA);
-          fillPixel(col + (row + BODY.TOTAL_ROW) * ROW_DATA, true); // Wear
+          fillPixel(col + (row + BODY.TOTAL_ROW) * ROW_DATA, true); // Overlay
         }
       }
     };
