@@ -8,6 +8,8 @@ import { RootState } from "../store";
 import RgbaForm from "../components/RgbaForm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShuffle } from "@fortawesome/free-solid-svg-icons";
+import { Transition } from "@headlessui/react";
+import { Fragment } from "react";
 
 function Home() {
   const dispatch = useDispatch();
@@ -108,10 +110,10 @@ function Home() {
         ))}
       </div>
       <div className="flex justify-evenly mt-6 h-7">
-        <button onClick={onRandomClick} className="bg-blue-300 w-1/5 rounded-full">
+        <button onClick={onRandomClick} className="bg-blue-300 w-1/5 rounded-full transition-blue-btn">
           <FontAwesomeIcon icon={faShuffle} />
         </button>
-        <button onClick={onGenerate} className="bg-teal-300 w-3/5 rounded-full">
+        <button onClick={onGenerate} className="bg-teal-300 w-3/5 rounded-full transition-teal-btn">
           생성하기
         </button>
       </div>

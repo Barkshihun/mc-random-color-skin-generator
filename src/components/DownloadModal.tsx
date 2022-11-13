@@ -31,8 +31,8 @@ function DownloadModal({ open, setOpen, skinPngCanvas }: { open: boolean; setOpe
               leaveFrom="opacity-100 translate-y-0 s"
               leaveTo="opacity-0 translate-y-4 "
             >
-              <Dialog.Panel className="w-[50%] relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all">
-                <div className="bg-white px-4 pt-5 pb-4 ">
+              <Dialog.Panel className="sm:w-[50%] w-full relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all">
+                <div className="Sbg-white px-4 pt-5 pb-4 ">
                   <div className="">
                     <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 ">
                       <ArrowDownTrayIcon className="h-6 w-6 text-blue-600" aria-hidden="true" />
@@ -41,7 +41,7 @@ function DownloadModal({ open, setOpen, skinPngCanvas }: { open: boolean; setOpe
                       <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
                         파일을 다운로드하시겠습니까?
                       </Dialog.Title>
-                      <h4 className="mt-1 text-gray-400 ">파일명: {text === "" ? DEFAULT_TEXT : text}.png</h4>
+                      <h4 className="mt-1 text-gray-400 break-all">파일명: {text === "" ? DEFAULT_TEXT : text}.png</h4>
                       <input
                         className="w-[80%] mt-2 pl-5 py-1 rounded-md border border-gray-300 focus:outline-none  focus:ring-1 focus:ring-gray-500"
                         type="text"

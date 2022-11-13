@@ -37,28 +37,35 @@ function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData;
   return (
     <section className="mt-14 w-1/3">
       <DownloadModal open={open} setOpen={setOpen} skinPngCanvas={skinPngCanvasRef.current as HTMLCanvasElement} />
-      <div className="flex flex-col h-[70%] justify-evenly items-center">
-        <canvas className="shadow-2xl" ref={skinCanvasRef} width={200} height={200}></canvas>
-        <FontAwesomeIcon icon={faShirt} onClick={onLayoutBtnClick} style={{ color: isOverlay ? "#ff5c5c" : "#707070" }} className="w-[30px] h-[30px] drop-shadow cursor-pointer" />
-        <canvas className="shadow-2xl w-40 h-40" ref={skinPngCanvasRef} width={64} height={64}></canvas>
-      </div>
-      <div className="flex justify-evenly">
-        <button
-          onClick={() => {
-            dispatch(undo());
-          }}
-          className="bg-blue-300 mb-2 w-1/5 flex justify-center items-center rounded-full py-[2px]"
-        >
-          <ArrowUturnLeftIcon className="h-5 w-5" strokeWidth={2} />
-        </button>
-        <button
-          onClick={() => {
-            setOpen(true);
-          }}
-          className="bg-teal-300 mb-2 w-3/5 rounded-full py-[2px]"
-        >
-          다운로드
-        </button>
+      <div className="h-full flex flex-col items-center">
+        <div className="flex flex-col h-[70%] justify-evenly items-center">
+          <canvas className="shadow-2xl" ref={skinCanvasRef} width={200} height={200}></canvas>
+          <FontAwesomeIcon
+            icon={faShirt}
+            onClick={onLayoutBtnClick}
+            style={{ color: isOverlay ? "#ff5c5c" : "#707070" }}
+            className="w-[30px] h-[30px] drop-shadow cursor-pointer transition hover:scale-105 hover:brightness-150"
+          />
+          <canvas className="shadow-2xl w-40 h-40" ref={skinPngCanvasRef} width={64} height={64}></canvas>
+        </div>
+        <div className="flex justify-between w-[200px]">
+          <button
+            onClick={() => {
+              dispatch(undo());
+            }}
+            className="bg-blue-300 mb-2 w-[40%] flex justify-center items-center rounded-full py-[2px] transition-blue-btn"
+          >
+            <ArrowUturnLeftIcon className="h-5 w-5" strokeWidth={2} />
+          </button>
+          <button
+            onClick={() => {
+              setOpen(true);
+            }}
+            className="bg-teal-300 mb-2 w-[50%] rounded-full py-[2px] transition-teal-btn"
+          >
+            다운로드
+          </button>
+        </div>
       </div>
     </section>
   );
