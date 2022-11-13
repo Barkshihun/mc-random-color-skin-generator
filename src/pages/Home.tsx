@@ -99,8 +99,8 @@ function Home() {
       <header className=" font-title text-5xl text-center break-keep">
         <h1>랜덤 색깔 스킨 생성기</h1>
       </header>
-      <div className="border-2 rounded-lg mt-4 shadow-xl px-[3%] py-[1%] min-w-[230px] h-[207px]">
-        <div className="grid grid-cols-colorForm bg-slate-100 py-1 pl-2 h-1/5">
+      <div className="border-2 rounded-lg mt-4 shadow-xl px-[3%] py-[1%] min-w-[230px] h-[207px] bg-white">
+        <div className="grid grid-cols-colorForm items-center bg-slate-100 py-1 pl-2 h-1/5">
           <span>색</span>
           <span className="col-span-2">최소값</span>
           <span>최댓값</span>

@@ -8,7 +8,7 @@ import "./App.css";
 function App() {
   const getIsGenerated = (state: RootState) => state.isGenerated.value;
   const isGeneratedSelector = createSelector(getIsGenerated, (isGenerated) => isGenerated);
-  return <main className="flex justify-center h-screen ">{!useSelector(isGeneratedSelector) ? <Home /> : <Output />}</main>;
+  return <main className="flex justify-center h-screen bg-gradient-to-br from-slate-100  to-gray-400">{!useSelector(isGeneratedSelector) ? <Home /> : <Output />}</main>;
 }
 
 export default App;

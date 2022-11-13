@@ -39,14 +39,14 @@ function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData;
       <DownloadModal open={open} setOpen={setOpen} skinPngCanvas={skinPngCanvasRef.current as HTMLCanvasElement} />
       <div className="h-full flex flex-col items-center">
         <div className="flex flex-col h-[70%] max-h-[500px] justify-evenly items-center">
-          <canvas className="shadow-2xl" ref={skinCanvasRef} width={200} height={200}></canvas>
+          <canvas className="shadow-2xl bg-white rounded-md" ref={skinCanvasRef} width={200} height={200}></canvas>
           <FontAwesomeIcon
             icon={faShirt}
             onClick={onLayoutBtnClick}
             style={{ color: isOverlay ? "#ff5c5c" : "#707070" }}
             className="w-[30px] h-[30px] drop-shadow cursor-pointer transition hover:scale-105 hover:brightness-150"
           />
-          <canvas className="shadow-2xl w-40 h-40" ref={skinPngCanvasRef} width={64} height={64}></canvas>
+          <canvas className="shadow-2xl w-40 h-40 bg-white rounded-md p-3" ref={skinPngCanvasRef} width={64} height={64}></canvas>
         </div>
         <div className="flex justify-evenly w-[200px] mt-4">
           <button
