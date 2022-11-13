@@ -1,4 +1,4 @@
-import { MinusIcon } from "@heroicons/react/24/outline";
+import { MinusIcon, QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import { useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 
@@ -19,8 +19,11 @@ function RgbaForm({
   const nodeRef1 = useRef(null);
   const nodeRef2 = useRef(null);
   return (
-    <div className="grid grid-cols-colorForm items-center pl-2 h-1/5">
-      <span style={{ color: cssColor }}>{rgbaInfo.color.replace(rgbaInfo.color[0], rgbaInfo.color[0].toUpperCase())}</span>
+    <div className="grid grid-cols-colorForm items-center pl-2 h-1/5 relative">
+      {rgbaInfo.color === "alpha" && <QuestionMarkCircleIcon className="w-3 cursor-pointer absolute left-[-7px]" strokeWidth={2} />}
+      <span className="cursor-default" style={{ color: cssColor }}>
+        {rgbaInfo.color.replace(rgbaInfo.color[0], rgbaInfo.color[0].toUpperCase())}
+      </span>
       <CSSTransition nodeRef={nodeRef1} in={textLoad} classNames="text-load" timeout={300}>
         <input
           ref={nodeRef1}
