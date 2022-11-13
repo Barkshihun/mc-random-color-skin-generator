@@ -20,7 +20,12 @@ function RgbaForm({
   const nodeRef2 = useRef(null);
   return (
     <div className="grid grid-cols-colorForm items-center pl-2 h-1/5 relative">
-      {rgbaInfo.color === "alpha" && <QuestionMarkCircleIcon className="w-3 cursor-pointer absolute left-[-7px]" strokeWidth={2} />}
+      {rgbaInfo.color === "alpha" && (
+        <div className="absolute sm:left-[-6px] left-[-4px] group">
+          <QuestionMarkCircleIcon className="sm:w-3 w-[10px] cursor-pointer" strokeWidth={2} />
+          <p className="absolute text-sm p-2 text-white text-center hidden w-30 break-keep bg-slate-500 rounded-lg group-hover:block">Alpha값은 오버레이 부분에만 적용됩니다.</p>
+        </div>
+      )}
       <span className="cursor-default" style={{ color: cssColor }}>
         {rgbaInfo.color.replace(rgbaInfo.color[0], rgbaInfo.color[0].toUpperCase())}
       </span>

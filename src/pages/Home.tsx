@@ -93,7 +93,7 @@ function Home() {
         dispatch(rgbaObjChange({ color, limit: "max", input: random2 }));
       }
     }
-    setTextLoad((loadAni) => !loadAni);
+    setTextLoad((textLoad) => !textLoad);
   };
   return (
     <section className="mt-20 flex-col justify-center w-[640px] px-8">
