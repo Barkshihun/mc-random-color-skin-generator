@@ -96,9 +96,10 @@ function Home() {
     setTextLoad((textLoad) => !textLoad);
   };
   return (
-    <section className="mt-20 flex-col justify-center w-[640px] px-8">
-      <header className=" font-title text-5xl text-center break-keep">
-        <h1>랜덤 색깔 스킨 생성기</h1>
+    <section className="mt-20 flex flex-col items-center w-[640px] px-8">
+      <header className="w-[90%]">
+        <h1 className="font-title sm:text-5xl text-4xl text-center break-keep transition-all">랜덤 색깔 마인크래프트 스킨 생성기</h1>
+        <p className="font-bold text-center mt-2 sm:text-base text-[10px] text-gray-600 transition-all">랜덤한 색깔을 가진 마인크래프트 스킨을 만들어드립니다.</p>
       </header>
       <div className="border-2 rounded-lg mt-4 shadow-xl px-[3%] py-[1%] min-w-[230px] h-[207px] bg-white">
         <div className="grid grid-cols-colorForm items-center bg-slate-100 py-1 pl-2 h-1/5">
@@ -110,7 +111,7 @@ function Home() {
           <RgbaForm key={i} rgbaInfo={rgbaInfo} onInputChange={onInputChange} rgbaObj={rgbaObj} textLoad={textLoad} />
         ))}
       </div>
-      <div className="flex justify-evenly mt-6 h-7">
+      <div className="flex justify-evenly mt-6 h-7 w-full">
         <button onClick={onRandomClick} className="bg-blue-300 w-1/5 rounded-full transition-blue-btn">
           <FontAwesomeIcon icon={faShuffle} />
         </button>

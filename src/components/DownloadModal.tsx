@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { ArrowDownTrayIcon } from "@heroicons/react/24/outline";
 
 function DownloadModal({ open, setOpen, skinPngCanvas }: { open: boolean; setOpen: React.Dispatch<React.SetStateAction<boolean>>; skinPngCanvas: HTMLCanvasElement }) {
-  const DEFAULT_TEXT = "랜덤 색깔 스킨";
+  const DEFAULT_TEXT = "랜덤 색깔 마인크래프트 스킨";
   const [text, setText] = useState("");
   const downloadBtnRef = useRef(null);
   const onDownload = () => {
@@ -38,12 +38,12 @@ function DownloadModal({ open, setOpen, skinPngCanvas }: { open: boolean; setOpe
                       <ArrowDownTrayIcon className="h-6 w-6 text-blue-600" aria-hidden="true" />
                     </div>
                     <div className="mt-3 text-center">
-                      <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
+                      <Dialog.Title as="h2" className="text-lg font-bold leading-6 text-gray-900">
                         파일을 다운로드하시겠습니까?
                       </Dialog.Title>
-                      <h4 className="mt-1 text-gray-400 break-all">파일명: {text === "" ? DEFAULT_TEXT : text}.png</h4>
+                      <h4 className="mt-1 text-gray-400 break-all text-sm">파일명: {text === "" ? DEFAULT_TEXT : text}.png</h4>
                       <input
-                        className="w-[80%] mt-2 pl-5 py-1 rounded-md border border-gray-300 focus:outline-none  focus:ring-1 focus:ring-gray-500"
+                        className="w-[80%] mt-2 pl-5 py-1 rounded-md border text-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
                         type="text"
                         placeholder={DEFAULT_TEXT}
                         value={text}
