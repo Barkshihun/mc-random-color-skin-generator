@@ -100,8 +100,7 @@ function Home() {
       <div className="border-2 rounded-lg mt-4 shadow-xl px-[3%] py-[1%]">
         <div className="grid grid-cols-colorForm bg-slate-100 py-1 pl-2">
           <span>색</span>
-          <span>최소값</span>
-          <span></span>
+          <span className="col-span-2">최소값</span>
           <span>최댓값</span>
         </div>
         {rgbaList.map((rgbaInfo, i) => (
