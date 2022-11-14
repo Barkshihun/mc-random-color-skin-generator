@@ -25,7 +25,7 @@ function RgbaForm({
       {rgbaInfo.color === "alpha" && (
         <div className="absolute sm:left-[-6px] left-[-4px] group">
           <QuestionMarkCircleIcon className="sm:w-3 w-[10px] cursor-pointer" strokeWidth={2} />
-          <p className="absolute text-sm p-2 text-white text-center hidden w-30 break-keep bg-slate-500 rounded-lg group-hover:block">Alpha값은 오버레이 부분에만 적용됩니다.</p>
+          <p className="shadow-lg absolute text-sm p-2 text-white text-center hidden w-30 break-keep bg-slate-500 rounded-lg group-hover:block">Alpha값은 오버레이 부분에만 적용됩니다.</p>
         </div>
       )}
       <span className="cursor-default" style={{ color: cssColor }}>
