@@ -13,7 +13,6 @@ import { useState } from "react";
 function Home() {
   const [textLoad, setTextLoad] = useState(true);
   const dispatch = useDispatch();
-  const MIN_VALUE = 0;
   const MAX_VALUE = 255;
   const getRgbaObj = (state: RootState) => state.rgbaObj.value;
   const rgbaObjSelector = createSelector(getRgbaObj, (rgbaObj) => rgbaObj);
@@ -25,40 +24,42 @@ function Home() {
       return;
     }
     const input = parseInt(event.target.value);
-    if (input < MIN_VALUE) {
-      dispatch(rgbaObjChange({ color, limit, input: MIN_VALUE }));
-      return;
-    } else if (input > MAX_VALUE) {
-      dispatch(rgbaObjChange({ color, limit, input: MAX_VALUE }));
-      return;
-    } else {
-      dispatch(rgbaObjChange({ color, limit, input }));
-    }
+    dispatch(rgbaObjChange({ color, limit, input }));
   };
   const rgbaList: RgbaList = [{ color: "red" }, { color: "green" }, { color: "blue" }, { color: "alpha" }];
   const makeErrMsgArray = () => {
     const rgbaObjKeyList = ["red", "green", "blue", "alpha"] as Rgba[];
     let errMsgArray: JSX.Element[] = [];
     rgbaObjKeyList.forEach((key) => {
-      const min = rgbaObj[key].min;
-      const max = rgbaObj[key].max;
       const color = key.replace(key[0], key[0].toUpperCase());
       const cssColor = color === "Alpha" ? "gray" : color;
-      if (min === "") {
-        errMsgArray.push(
-          <p key={`${color}minErr`}>
-            <span style={{ color: cssColor }}>{color}</span>의 최솟값이 없습니다.
-          </p>
-        );
+      let valueSize: "min" | "max";
+      for (valueSize in rgbaObj[key]) {
+        const value = rgbaObj[key][valueSize];
+        const text = valueSize === "min" ? "최솟값" : "최댓값";
+        if (value === "") {
+          errMsgArray.push(
+            <p key={`${color}${valueSize}NoErr`}>
+              <span style={{ color: cssColor }}>{color}</span>의 {text}이 없습니다.
+            </p>
+          );
+        }
+        if (value < 0) {
+          errMsgArray.push(
+            <p key={`${color}${valueSize}SmallErr`}>
+              <span style={{ color: cssColor }}>{color}</span>의 {text}이 0보다 작습니다.
+            </p>
+          );
+        }
+        if (value > MAX_VALUE) {
+          errMsgArray.push(
+            <p key={`${color}${valueSize}BigErr`}>
+              <span style={{ color: cssColor }}>{color}</span>의 {text}이 255보다 큽니다.
+            </p>
+          );
+        }
       }
-      if (max === "") {
-        errMsgArray.push(
-          <p key={`${color}maxErr`}>
-            <span style={{ color: cssColor }}>{color}</span>의 최댓값이 없습니다.
-          </p>
-        );
-      }
-      if (min > max) {
+      if (rgbaObj[key].min > rgbaObj[key].max) {
         errMsgArray.push(
           <p key={`${color}minBigthanMaxErr`}>
             <span style={{ color: cssColor }}>{color}</span>의 최솟값이 <span style={{ color: cssColor }}>{color}</span>의 최댓값보다 큽니다.
@@ -99,7 +100,8 @@ function Home() {
     <section className="mt-20 flex flex-col items-center w-[640px] px-8">
       <header className="w-[90%]">
         <h1 className="font-title sm:text-5xl text-4xl text-center break-keep transition-all">랜덤 색깔 마인크래프트 스킨 생성기</h1>
-        <p className="font-bold text-center mt-2 sm:text-base text-[10px] text-gray-600 transition-all">랜덤한 색깔을 가진 마인크래프트 스킨을 만들어드립니다.</p>
+        <p className="font-bold text-center mt-3 sm:text-base text-[10px] text-gray-600 transition-all">랜덤한 색깔을 가진 마인크래프트 스킨을 만들어드립니다.</p>
+        <p className="font-bold text-center sm:text-base text-[10px] text-gray-600 transition-all">0-255사이의 값을 입력해주세요.</p>
       </header>
       <div className="border-2 rounded-lg mt-4 shadow-xl px-[3%] py-[1%] min-w-[230px] h-[207px] bg-white">
         <div className="grid grid-cols-colorForm items-center bg-slate-100 py-1 pl-2 h-1/5">
@@ -107,8 +109,8 @@ function Home() {
           <span className="col-span-2">최소값</span>
           <span>최댓값</span>
         </div>
-        {rgbaList.map((rgbaInfo, i) => (
-          <RgbaForm key={i} rgbaInfo={rgbaInfo} onInputChange={onInputChange} rgbaObj={rgbaObj} textLoad={textLoad} />
+        {rgbaList.map((rgbaInfo) => (
+          <RgbaForm key={rgbaInfo.color} rgbaInfo={rgbaInfo} onInputChange={onInputChange} rgbaObj={rgbaObj} textLoad={textLoad} />
         ))}
       </div>
       <div className="flex justify-evenly mt-6 h-7 w-full">

@@ -12,7 +12,7 @@
     -moz-appearance: textfield;
   }
   input {
-    @apply border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500;
+    @apply border-gray-300 transition-shadow focus:outline-none focus:ring-1 focus:ring-gray-500;
   }
   h1,
   h3,

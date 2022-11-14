@@ -16,8 +16,10 @@ function RgbaForm({
   textLoad: boolean;
 }) {
   const cssColor = rgbaInfo.color === "alpha" ? "gray" : rgbaInfo.color;
-  const nodeRef1 = useRef(null);
-  const nodeRef2 = useRef(null);
+  const minInputRef = useRef(null);
+  const maxInputRef = useRef(null);
+  const minValue = rgbaObj[rgbaInfo.color]["min"];
+  const maxValue = rgbaObj[rgbaInfo.color]["max"];
   return (
     <div className="grid grid-cols-colorForm items-center pl-2 h-1/5 relative">
       {rgbaInfo.color === "alpha" && (
@@ -29,33 +31,37 @@ function RgbaForm({
       <span className="cursor-default" style={{ color: cssColor }}>
         {rgbaInfo.color.replace(rgbaInfo.color[0], rgbaInfo.color[0].toUpperCase())}
       </span>
-      <CSSTransition nodeRef={nodeRef1} in={textLoad} classNames="text-load" timeout={300}>
+      <CSSTransition nodeRef={minInputRef} in={textLoad} classNames="text-load" timeout={300}>
         <input
-          ref={nodeRef1}
-          className="border w-full h-full pl-2"
+          className={`border w-full h-[80%] pl-3 rounded-md text-sm invalid:ring-2 invalid:ring-red-400 ${minValue > maxValue ? "!ring-2 !ring-red-400" : ""}`}
+          ref={minInputRef}
           data-color={rgbaInfo.color}
           data-limit={"min"}
           id={`${rgbaInfo.color}Min`}
-          value={`${rgbaObj[rgbaInfo.color]["min"]}`}
+          value={`${minValue}`}
           type={"number"}
           min={0}
           max={255}
           onChange={onInputChange}
+          required
+          title=""
         />
       </CSSTransition>
       <MinusIcon className="w-7 sm:w-10 justify-self-center" />
-      <CSSTransition nodeRef={nodeRef2} in={textLoad} classNames="text-load" timeout={300}>
+      <CSSTransition nodeRef={maxInputRef} in={textLoad} classNames="text-load" timeout={300}>
         <input
-          ref={nodeRef2}
-          className="border w-full h-full pl-2"
+          className={`border w-full h-[80%] pl-3 rounded-md text-sm invalid:ring-2 invalid:ring-red-400 ${minValue > maxValue ? "!ring-2 !ring-red-400" : ""}`}
+          ref={maxInputRef}
           data-color={rgbaInfo.color}
           data-limit={"max"}
           id={`${rgbaInfo.color}Max`}
-          value={`${rgbaObj[rgbaInfo.color]["max"]}`}
+          value={`${maxValue}`}
           type={"number"}
           min={0}
           max={255}
           onChange={onInputChange}
+          required
+          title=""
         />
       </CSSTransition>
     </div>
