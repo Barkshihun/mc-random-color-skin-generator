@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://barkshihun.github.io/random-color-mc-skin-generator/sitemap.xml
