@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { undo } from "../store/isGeneratedSlice";
-import { SkinViewer } from "skinview3d";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShirt } from "@fortawesome/free-solid-svg-icons";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
@@ -17,20 +16,24 @@ function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData;
   let skinPngCanvas: HTMLCanvasElement;
   let skinCanvas: HTMLCanvasElement;
   useEffect(() => {
-    skinPngCanvas = skinPngCanvasRef.current as HTMLCanvasElement;
-    const skinPngCanvasCtx = skinPngCanvas.getContext("2d") as CanvasRenderingContext2D;
-    if (isOverlay) {
-      skinPngCanvasCtx.putImageData(imageData, 0, 0);
-    } else {
-      skinPngCanvasCtx.putImageData(noOverlayImageData, 0, 0);
-    }
-    skinCanvas = skinCanvasRef.current as HTMLCanvasElement;
-    new SkinViewer({
-      canvas: skinCanvas,
-      skin: skinPngCanvas,
-      width: 200,
-      height: 200,
-    });
+    const init = async () => {
+      skinPngCanvas = skinPngCanvasRef.current as HTMLCanvasElement;
+      skinCanvas = skinCanvasRef.current as HTMLCanvasElement;
+      const { SkinViewer } = await import("skinview3d");
+      const skinPngCanvasCtx = skinPngCanvas.getContext("2d") as CanvasRenderingContext2D;
+      if (isOverlay) {
+        skinPngCanvasCtx.putImageData(imageData, 0, 0);
+      } else {
+        skinPngCanvasCtx.putImageData(noOverlayImageData, 0, 0);
+      }
+      new SkinViewer({
+        canvas: skinCanvas,
+        skin: skinPngCanvas,
+        width: 200,
+        height: 200,
+      });
+    };
+    init();
   }, [isOverlay]);
   const onLayoutBtnClick = () => {
     setOverlay((prevState) => !prevState);
@@ -52,7 +55,7 @@ function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData;
             />
           </button>
           <CSSTransition nodeRef={skinPngCanvasRef} in={isOverlay} classNames="canvas-load" timeout={500}>
-            <canvas ref={skinPngCanvasRef} className=" shadow-2xl w-40 h-40 bg-white rounded-md p-3 animate-init-canvas-load" width={64} height={64}></canvas>
+            <canvas ref={skinPngCanvasRef} className="shadow-2xl w-40 h-40 bg-white rounded-md p-3 animate-init-canvas-load" width={64} height={64}></canvas>
           </CSSTransition>
         </div>
         <div className="flex justify-evenly w-[200px] mt-4">
