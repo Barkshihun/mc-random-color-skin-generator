@@ -39,18 +39,11 @@
   }
 }
 .text-load-enter,
-.text-load-exit,
-.canvas-load-enter,
-.canvas-load-exit {
+.text-load-exit {
   filter: brightness(0.8);
 }
 .text-load-enter-active,
 .text-load-exit-active {
   filter: brightness(1);
   transition: filter 300ms ease-in-out;
-}
-.canvas-load-enter-active,
-.canvas-load-exit-active {
-  filter: brightness(1);
-  transition: filter 500ms ease-in-out;
 }
