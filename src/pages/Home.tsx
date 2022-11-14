@@ -97,7 +97,7 @@ function Home() {
     setTextLoad((textLoad) => !textLoad);
   };
   return (
-    <section className="mt-20 flex flex-col items-center w-[640px] px-8">
+    <section className="sm:mt-20 mt-10 flex flex-col items-center w-[640px] px-8 transition-all">
       <header className="w-[90%]">
         <h1 className="font-title sm:text-5xl text-4xl text-center break-keep transition-all">랜덤 색깔 마인크래프트 스킨 생성기</h1>
         <p className="font-bold text-center mt-3 sm:text-base text-[10px] text-gray-600 transition-all">랜덤한 색깔을 가진 마인크래프트 스킨을 만들어드립니다.</p>

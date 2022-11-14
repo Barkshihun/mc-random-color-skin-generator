@@ -39,7 +39,7 @@ function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData;
     setOverlay((prevState) => !prevState);
   };
   return (
-    <section className="mt-14 w-1/3">
+    <section className="sm:mt-14 mt-7 w-1/3 transition-all">
       <DownloadModal open={open} setOpen={setOpen} skinPngCanvas={skinPngCanvasRef.current as HTMLCanvasElement} />
       <div className="h-full flex flex-col items-center">
         <div className="flex flex-col h-[70%] max-h-[500px] justify-evenly items-center">
