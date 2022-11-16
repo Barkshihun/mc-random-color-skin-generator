@@ -113,11 +113,11 @@ function Home() {
           <RgbaForm key={rgbaInfo.color} rgbaInfo={rgbaInfo} onInputChange={onInputChange} rgbaObj={rgbaObj} textLoad={textLoad} />
         ))}
       </div>
-      <div className="flex justify-evenly pb-5 h-12 w-full">
-        <button onClick={onRandomClick} className="bg-blue-300 w-1/5 rounded-full transition-blue-btn">
+      <div className="flex justify-evenly pb-5 w-full">
+        <button onClick={onRandomClick} className="bg-blue-300 w-1/5 rounded-full transition-blue-btn py-1">
           <FontAwesomeIcon icon={faShuffle} />
         </button>
-        <button onClick={onGenerate} className="bg-teal-300 w-3/5 rounded-full transition-teal-btn">
+        <button onClick={onGenerate} className="bg-teal-300 w-3/5 rounded-full transition-teal-btn py-1">
           생성하기
         </button>
       </div>
