@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-gradient-to-br from-slate-100 to-gray-400 bg-fixed;
+    @apply bg-gray-400 bg-gradient-to-br from-slate-100 to-gray-400 bg-fixed;
   }
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
