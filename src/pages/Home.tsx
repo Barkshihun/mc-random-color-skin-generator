@@ -103,17 +103,17 @@ function Home() {
         <p className="font-bold text-center mt-3 sm:text-base text-[10px] text-gray-600 transition-all">랜덤한 색깔을 가진 마인크래프트 스킨을 만들어드립니다.</p>
         <p className="font-bold text-center sm:text-base text-[10px] text-gray-600 transition-all">0-255사이의 값을 입력해주세요.</p>
       </header>
-      <div className="border-2 rounded-lg mt-4 shadow-xl px-[3%] py-[1%] min-w-[230px] h-[207px] bg-white">
+      <div className="border-2 rounded-lg mt-4 mb-6 shadow-xl px-[3%] py-[1%] min-w-[230px] min-h-[207px] bg-white">
         <div className="grid grid-cols-colorForm items-center bg-slate-100 py-1 pl-2 h-1/5">
           <span>색</span>
-          <span className="col-span-2">최소값</span>
-          <span>최댓값</span>
+          <span className="pl-2 col-span-2">최소값</span>
+          <span className="pl-2 break-keep">최댓값</span>
         </div>
         {rgbaList.map((rgbaInfo) => (
           <RgbaForm key={rgbaInfo.color} rgbaInfo={rgbaInfo} onInputChange={onInputChange} rgbaObj={rgbaObj} textLoad={textLoad} />
         ))}
       </div>
-      <div className="flex justify-evenly mt-6 h-7 w-full">
+      <div className="flex justify-evenly pb-5 h-12 w-full">
         <button onClick={onRandomClick} className="bg-blue-300 w-1/5 rounded-full transition-blue-btn">
           <FontAwesomeIcon icon={faShuffle} />
         </button>
