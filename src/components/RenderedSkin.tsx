@@ -38,22 +38,22 @@ function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData;
     setOverlay((prevState) => !prevState);
   };
   return (
-    <section className="sm:mt-14 mt-7 w-1/3 transition-all">
+    <section className="sm:mt-8 mt-10 h-full flex sm:flex-row flex-col md:items-center sm:justify-between transition-all">
       <DownloadModal open={open} setOpen={setOpen} skinPngCanvas={skinPngCanvasRef.current as HTMLCanvasElement} />
-      <div className="h-full flex flex-col items-center">
-        <div className="flex flex-col h-[70%] max-h-[500px] justify-evenly items-center">
-          <canvas ref={skinCanvasRef} className="shadow-2xl bg-white rounded-md animate-init-canvas-load" width={200} height={200}></canvas>
-          <button className="rounded-full w-[40px] h-[40px] flex items-center justify-center">
-            <FontAwesomeIcon
-              icon={faShirt}
-              onClick={onLayoutBtnClick}
-              style={{ color: isOverlay ? "#ff5c5c" : "#707070" }}
-              className="h-[30px] w-[30px] drop-shadow transition hover:scale-105 hover:brightness-150"
-            />
-          </button>
-          <canvas ref={skinPngCanvasRef} className="shadow-2xl w-40 h-40 bg-white rounded-md p-3 animate-init-canvas-load" width={64} height={64}></canvas>
-        </div>
-        <div className="flex justify-evenly w-[200px] mt-4">
+      <div className="sm:mr-10 mr-0 flex flex-col h-fit sm:h-[60%] items-center">
+        <canvas ref={skinCanvasRef} className="shadow-2xl bg-white rounded-md animate-init-canvas-load" width={200} height={200}></canvas>
+        <button className="sm:mt-7 my-4 rounded-full w-[40px] h-[40px] flex items-center justify-center pb-0 sm:pb-7">
+          <FontAwesomeIcon
+            className="h-[30px] drop-shadow transition hover:scale-105 hover:brightness-150"
+            icon={faShirt}
+            onClick={onLayoutBtnClick}
+            style={{ color: isOverlay ? "#ff5c5c" : "#707070" }}
+          />
+        </button>
+      </div>
+      <div className="sm:ml-10 ml-0 flex flex-col h-[60%] items-center">
+        <canvas ref={skinPngCanvasRef} className="shadow-2xl w-40 h-40 sm:w-44 sm:h-44 bg-white rounded-md p-3 animate-init-canvas-load" width={64} height={64}></canvas>
+        <div className="flex justify-evenly w-[200px] mt-9 sm:mt-6">
           <button
             onClick={() => {
               dispatch(undo());
