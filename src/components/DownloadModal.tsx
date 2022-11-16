@@ -34,16 +34,16 @@ function DownloadModal({ open, setOpen, skinPngCanvas }: { open: boolean; setOpe
               <Dialog.Panel className="sm:w-[50%] w-full relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all">
                 <div className="bg-white px-4 pt-5 pb-4 ">
                   <div className="">
-                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 ">
-                      <ArrowDownTrayIcon className="h-6 w-6 text-blue-600" aria-hidden="true" />
+                    <div className="transition-all mx-auto flex h-12 w-12 md:h-16 md:w-16 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 ">
+                      <ArrowDownTrayIcon className="transition-all h-6 md:h-8 text-blue-600" aria-hidden="true" />
                     </div>
                     <div className="mt-3 text-center">
-                      <Dialog.Title as="h2" className="text-lg font-bold leading-6 text-gray-900">
+                      <Dialog.Title as="h2" className="transition-all text-lg md:text-xl font-bold leading-6 text-gray-900">
                         파일을 다운로드하시겠습니까?
                       </Dialog.Title>
-                      <h4 className="mt-1 text-gray-400 break-all text-sm">파일명: {text === "" ? DEFAULT_TEXT : text}.png</h4>
+                      <h4 className="transition-all mt-1 text-gray-400 break-all text-sm md:text-base">파일명: {text === "" ? DEFAULT_TEXT : text}.png</h4>
                       <input
-                        className="w-[80%] mt-2 pl-5 py-1 rounded-md border text-sm border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
+                        className="transition-all w-[80%] mt-2 pl-5 py-1 rounded-md border text-sm md:text-base border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
                         type="text"
                         placeholder={DEFAULT_TEXT}
                         value={text}
