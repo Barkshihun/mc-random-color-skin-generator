@@ -35,7 +35,7 @@ function RenderedSkin({ imageData, noOverlayImageData, setIsGenerated }: { image
     setOverlay((prevState) => !prevState);
   };
   return (
-    <section className="sm:mt-8 mt-10 h-full flex sm:flex-row flex-col md:items-center sm:justify-between transition-all">
+    <section className="sm:mt-0 mt-10 h-full flex sm:flex-row flex-col sm:items-center sm:justify-between transition-all">
       <DownloadModal open={open} setOpen={setOpen} skinPngCanvas={skinPngCanvasRef.current as HTMLCanvasElement} />
       <div className="sm:mr-10 mr-0 flex flex-col h-fit sm:h-[60%] items-center">
         <canvas ref={skinCanvasRef} className="shadow-2xl bg-white rounded-md animate-init-canvas-load" width={200} height={200}></canvas>
