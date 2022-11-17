@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import { generate } from "../store/isGeneratedSlice";
 import { createSelector } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -10,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 
-function Home() {
+function Home({ setIsGenerated }: { setIsGenerated: React.Dispatch<React.SetStateAction<boolean>> }) {
   const [textLoad, setTextLoad] = useState(true);
   const dispatch = useDispatch();
   const MAX_VALUE = 255;
@@ -78,7 +77,7 @@ function Home() {
         html: <>{errMsgArray}</>,
       });
     } else {
-      dispatch(generate(rgbaObj));
+      setIsGenerated(true);
     }
   };
   const onRandomClick = () => {

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import RenderedSkin from "../components/RenderedSkin";
 
-function Output() {
+function Output({ setIsGenerated }: { setIsGenerated: React.Dispatch<React.SetStateAction<boolean>> }) {
   const [isRendering, setRendering] = useState(true);
   const getRgbaObj = (state: RootState) => state.rgbaObj.value;
   const rgbaObjSelector = createSelector(getRgbaObj, (rgbaObj) => rgbaObj);
@@ -136,6 +136,6 @@ function Output() {
   useEffect(() => {
     makeImageData();
   }, []);
-  return <>{!isRendering && <RenderedSkin imageData={imageData.current as ImageData} noOverlayImageData={noOverlayImageData.current as ImageData} />}</>;
+  return <>{!isRendering && <RenderedSkin imageData={imageData.current as ImageData} noOverlayImageData={noOverlayImageData.current as ImageData} setIsGenerated={setIsGenerated} />}</>;
 }
 export default Output;

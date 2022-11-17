@@ -1,15 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
-import { undo } from "../store/isGeneratedSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShirt } from "@fortawesome/free-solid-svg-icons";
 import { ArrowUturnLeftIcon } from "@heroicons/react/24/outline";
 import DownloadModal from "./DownloadModal";
 
-function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData; noOverlayImageData: ImageData }) {
+function RenderedSkin({ imageData, noOverlayImageData, setIsGenerated }: { imageData: ImageData; noOverlayImageData: ImageData; setIsGenerated: React.Dispatch<React.SetStateAction<boolean>> }) {
   const [open, setOpen] = useState(false);
   const [isOverlay, setOverlay] = useState(true);
-  const dispatch = useDispatch();
   const skinPngCanvasRef = useRef<HTMLCanvasElement>(null);
   const skinCanvasRef = useRef<HTMLCanvasElement>(null);
   let skinPngCanvas: HTMLCanvasElement;
@@ -56,7 +53,7 @@ function RenderedSkin({ imageData, noOverlayImageData }: { imageData: ImageData;
         <div className="flex justify-evenly w-[200px] mt-9 sm:mt-6">
           <button
             onClick={() => {
-              dispatch(undo());
+              setIsGenerated(false);
             }}
             className="bg-blue-300 mb-2 w-4/12 flex justify-center items-center rounded-full py-[2px] transition-blue-btn"
           >
