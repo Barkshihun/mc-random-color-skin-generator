@@ -2,7 +2,6 @@ import { createSelector } from "@reduxjs/toolkit";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import Rendering from "../components/Rendering";
 import RenderedSkin from "../components/RenderedSkin";
 
 function Output() {
@@ -135,8 +134,8 @@ function Output() {
     setRendering(false);
   };
   useEffect(() => {
-    new Promise(makeImageData);
+    makeImageData();
   }, []);
-  return <>{isRendering ? <Rendering /> : <RenderedSkin imageData={imageData.current as ImageData} noOverlayImageData={noOverlayImageData.current as ImageData} />}</>;
+  return <>{!isRendering && <RenderedSkin imageData={imageData.current as ImageData} noOverlayImageData={noOverlayImageData.current as ImageData} />}</>;
 }
 export default Output;
