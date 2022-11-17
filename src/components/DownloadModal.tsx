@@ -31,7 +31,7 @@ function DownloadModal({ open, setOpen, skinPngCanvas }: { open: boolean; setOpe
               leaveFrom="opacity-100 translate-y-0 s"
               leaveTo="opacity-0 translate-y-4 "
             >
-              <Dialog.Panel className="sm:w-[50%] w-full relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all">
+              <Dialog.Panel className="max-w-[600px] sm:w-[50%] w-full relative transform overflow-hidden rounded-lg text-left shadow-xl transition-all">
                 <div className="bg-white px-4 pt-5 pb-4 ">
                   <div className="">
                     <div className="transition-all mx-auto flex h-12 w-12 md:h-16 md:w-16 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 ">
