@@ -45,6 +45,7 @@ function DownloadModal({ open, setOpen, skinPngCanvas }: { open: boolean; setOpe
                       <input
                         className="transition-all w-[80%] mt-2 pl-5 py-1 rounded-md border text-sm md:text-base border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
                         type="text"
+                        spellCheck="false"
                         placeholder={DEFAULT_TEXT}
                         value={text}
                         onChange={({ target: { value } }) => {
