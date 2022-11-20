@@ -105,7 +105,7 @@ function Home({ setIsGenerated }: { setIsGenerated: React.Dispatch<React.SetStat
       <div className="border-2 rounded-lg mt-4 mb-6 shadow-xl px-[3%] py-[1%] min-w-[230px] min-h-[207px] bg-white">
         <div className="grid grid-cols-colorForm items-center bg-slate-100 py-1 pl-2 h-1/5">
           <span>색</span>
-          <span className="pl-2 col-span-2">최소값</span>
+          <span className="pl-2 col-span-2">최솟값</span>
           <span className="pl-2 break-keep">최댓값</span>
         </div>
         {rgbaList.map((rgbaInfo) => (
