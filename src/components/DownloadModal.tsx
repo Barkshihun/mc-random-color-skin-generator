@@ -20,7 +20,7 @@ function DownloadModal({ open, setOpen, skinPngCanvas }: { open: boolean; setOpe
         <Transition.Child as={Fragment} enter="ease-out duration-200" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <div className="fixed inset-0 z-10">
           <div className="flex min-h-full items-center justify-center p-4 text-center">
             <Transition.Child
               as={Fragment}
@@ -41,7 +41,9 @@ function DownloadModal({ open, setOpen, skinPngCanvas }: { open: boolean; setOpe
                       <Dialog.Title as="h2" className="transition-all text-lg md:text-xl font-bold leading-6 text-gray-900">
                         파일을 다운로드하시겠습니까?
                       </Dialog.Title>
-                      <h4 className="transition-all mt-1 text-gray-400 break-all text-sm md:text-base">파일명: {text === "" ? DEFAULT_TEXT : text}.png</h4>
+                      <div className="w-full flex justify-center">
+                        <h4 className="w-[90%] sm:w-[80%] overflow-x-auto transition-all mt-1 text-gray-400 whitespace-pre text-sm md:text-base">파일명: {text === "" ? DEFAULT_TEXT : text}.png</h4>
+                      </div>
                       <input
                         className="transition-all w-[80%] mt-2 pl-5 py-1 rounded-md border text-sm md:text-base border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500"
                         type="text"
